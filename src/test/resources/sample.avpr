@@ -1,0 +1,20 @@
+{
+    "namespace":"com.example",
+    "protocol":"PersonProtocol",
+    "types":[
+        {
+            "name":"FullName",
+            "fields":[
+                {
+                    "name":"first",
+                    "type":"string"
+                },
+                {
+                    "name":"last",
+                    "type":"string"
+                }
+            ],
+            "type":"record"
+        }
+    ]
+}
