@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.10.7'
+    compile 'org.scala-lang:scala-library:2.12.8'
 }
 
 avrohugger {

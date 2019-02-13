@@ -40,17 +40,25 @@ class AvrohuggerPlugin implements Plugin<Project> {
         }
     }
 
-    // look for generated source directory in all source sets
-    // if the directory is not in any source set yet (it was not defined in gradle script) then add it to main scala sources
+
     private static void registerGeneratedSources(Project project, AvrohuggerExtension extension) {
         project.afterEvaluate {
-            final generatedSource = extension.destinationDirectory.get().asFile
-            final alreadyRegistered = project.sourceSets.collectMany { it.allSource.srcDirs }.contains(generatedSource)
-            if (!alreadyRegistered) {
-                project.sourceSets.matching { it.name == 'main' }.all {
-                    if (it.hasProperty('scala')) {
-                        it.scala.srcDir extension.destinationDirectory
-                    }
+            // for the minimal use case there are no sourceSets in project
+            if (project.hasProperty('sourceSets')) {
+                registerGeneratedSourcesUnsafe(project, extension)
+            }
+        }
+    }
+
+    // look for generated source directory in all source sets
+    // if the directory is not in any source set yet (it was not defined in gradle script) then add it to main scala sources
+    private static void registerGeneratedSourcesUnsafe(Project project, AvrohuggerExtension extension) {
+        final generatedSource = extension.destinationDirectory.get().asFile
+        final alreadyRegistered = project.sourceSets.collectMany { it.allSource.srcDirs }.contains(generatedSource)
+        if (!alreadyRegistered) {
+            project.sourceSets.matching { it.name == 'main' }.all {
+                if (it.hasProperty('scala')) {
+                    it.scala.srcDir extension.destinationDirectory
                 }
             }
         }
