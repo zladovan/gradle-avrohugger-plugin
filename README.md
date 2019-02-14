@@ -9,7 +9,7 @@ Minimally it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.1.2'
+    id 'com.zlad.gradle.avrohugger' version '0.1.3'
 }
 ```
 
@@ -19,7 +19,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.1.2'
+    id 'com.zlad.gradle.avrohugger' version '0.1.3'
 }
 
 repositories {
@@ -31,11 +31,11 @@ dependencies {
 }
 ```
 
-By default scala classes generation will be triggered during build before `compileScala` task. 
+Then by default scala classes generation will be triggered during build before `compileScala` task. 
 It will look into directory `src/main/avro` for all files ending with `.avsc`, `.avdl`, `.avro` or `.avpr`.
 Classes will be generated under `${buildDir}/generated-src/avro` and they will be added to `main` scala source set.
 
-> You can call `avroScalaGenerate` task to perform classes generation only
+> You can always call `avroScalaGenerate` task to perform classes generation only
 
 ## Configuration
 

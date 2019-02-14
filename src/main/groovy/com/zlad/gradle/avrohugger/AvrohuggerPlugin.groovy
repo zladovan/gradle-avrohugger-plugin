@@ -65,7 +65,9 @@ class AvrohuggerPlugin implements Plugin<Project> {
     }
 
     private static void registerGenerateTaskBuildDependency(Project project, Task task) {
-        project.tasks.findByName('compileScala')?.dependsOn(task)
+        project.afterEvaluate {
+            project.tasks.findByName('compileScala')?.dependsOn(task)
+        }
     }
 
 }
