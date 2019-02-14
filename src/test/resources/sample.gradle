@@ -3,6 +3,10 @@ plugins {
     id 'com.zlad.gradle.avrohugger'
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile 'org.scala-lang:scala-library:2.12.8'
 }
