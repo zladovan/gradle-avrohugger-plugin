@@ -1,6 +1,6 @@
 # gradle-avrohugger-plugin
 
-[Gradle](https://gradle.org) plugin for generating scala case classes from [Apache Avro](https://avro.apache.org/) schemas, datafiles, and protocols. 
+[Gradle](https://gradle.org) plugin for generating scala case classes from [Apache Avro](https://avro.apache.org/) schemas, datafiles and protocols. 
 It is based on [avrohugger](https://github.com/julianpeeters/avrohugger) scala library.
 
 ## Usage

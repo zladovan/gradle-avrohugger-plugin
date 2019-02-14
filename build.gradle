@@ -28,7 +28,7 @@ gradlePlugin {
             id = 'com.zlad.gradle.avrohugger'
             implementationClass = 'com.zlad.gradle.avrohugger.AvrohuggerPlugin'
             displayName = 'Gradle avrohugger plugin'
-            description = 'Plugin for generating scala case classes from apache avro schemas, datafiles, and protocols.'
+            description = 'Plugin for generating scala case classes from apache avro schemas, datafiles and protocols.'
         }
     }
 }
