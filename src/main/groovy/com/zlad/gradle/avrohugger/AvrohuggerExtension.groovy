@@ -5,27 +5,26 @@ import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileCollection
-import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.util.ConfigureUtil
 
 class AvrohuggerExtension implements CustomTypesValues {
     final ConfigurableFileCollection sourceDirectories
     final DirectoryProperty destinationDirectory
-    final MapProperty<String, String> namespaceMapping
+    final Property<Map<String, String>> namespaceMapping
     final Property<CustomTypes> typeMapping
 
     AvrohuggerExtension(Project project) {
-        sourceDirectories = project.layout.configurableFiles()
+        sourceDirectories = project.files()
         sourceDirectories.setFrom(project.files('src/main/avro'))
 
-        destinationDirectory = project.objects.directoryProperty()
+        destinationDirectory = project.layout.directoryProperty()
         destinationDirectory.set(project.file("${project.buildDir}/generated-src/avro"))
 
         typeMapping = project.objects.property(CustomTypes)
         typeMapping.set(new CustomTypes())
 
-        namespaceMapping = project.objects.mapProperty(String, String)
+        namespaceMapping = project.objects.property(Map)
         namespaceMapping.set([:])
     }
 

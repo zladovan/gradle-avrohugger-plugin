@@ -4,7 +4,6 @@ import avrohugger.Generator
 import avrohugger.format.Standard$
 import avrohugger.types.AvroScalaTypes
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
@@ -19,16 +18,16 @@ class GenerateScalaTask extends SourceTask {
     private static final Logger logger = LoggerFactory.getLogger(GenerateScalaTask)
 
     @OutputDirectory
-    final DirectoryProperty destinationDir = project.objects.directoryProperty()
+    final DirectoryProperty destinationDir = project.layout.directoryProperty()
 
     @Input
-    final Property<AvroScalaTypes> customTypes =  project.objects.property(AvroScalaTypes.class)
+    final Property<AvroScalaTypes> customTypes =  project.objects.property(AvroScalaTypes)
 
     @Input
-    final MapProperty<String, String> customNamespaces = project.objects.mapProperty(String.class, String.class)
+    final Property<Map<String, String>> customNamespaces = project.objects.property(Map)
 
     @Input
-    final Property<Boolean> restrictedFieldNumber =  project.objects.property(Boolean.class)
+    final Property<Boolean> restrictedFieldNumber =  project.objects.property(Boolean)
 
     @TaskAction
     void generate() {

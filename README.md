@@ -7,13 +7,17 @@
 [Gradle](https://gradle.org) plugin for generating scala case classes from [Apache Avro](https://avro.apache.org/) schemas, datafiles and protocols. 
 It is based on [avrohugger](https://github.com/julianpeeters/avrohugger) scala library.
 
+## Requirements
+
+Plugin requires **Gradle** in version **4.3** or higher. 
+
 ## Usage
 
-Minimally it is enough to add following to your `build.gradle` file:
+For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.1.6'
+    id 'com.zlad.gradle.avrohugger' version '0.2.0'
 }
 ```
 
@@ -23,7 +27,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.1.6'
+    id 'com.zlad.gradle.avrohugger' version '0.2.0'
 }
 
 repositories {
