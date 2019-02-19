@@ -1,34 +1,27 @@
 package com.zlad.gradle.avrohugger
 
+import com.zlad.gradle.avrohugger.common.Resources
+import com.zlad.gradle.avrohugger.common.TestProject
+import com.zlad.gradle.avrohugger.common.TestProjectConfig
 import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-
-class AvrohuggerPluginFunctionalSpec extends Specification {
+class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
 
     @Rule
-    TemporaryFolder projectDir = new TemporaryFolder()
-
-    File inputDirecotry
-    File outputDirecotry
-
-    def setup() {
-        projectDir.newFile('build.gradle') << read('sample.gradle')
-        inputDirecotry = projectDir.newFolder('src-avro')
-        outputDirecotry = new File(projectDir.root, 'src-scala')
-    }
+    TestProject project = new TestProject(new TestProjectConfig(
+            buildDefinition: Resources.read('minimal.gradle').text
+    ))
 
     def "should generate scala classes from avsc file"() {
         given:
         inputFile('avsc')
 
         when:
-        final result = avroScalaGenerateCalled()
+        final result = project.avroScalaGenerate()
 
         then:
         avroScalaGenerateTaskWasSuccessful(result)
@@ -40,7 +33,7 @@ class AvrohuggerPluginFunctionalSpec extends Specification {
         inputFile('avdl')
 
         when:
-        final result = avroScalaGenerateCalled()
+        final result = project.avroScalaGenerate()
 
         then:
         avroScalaGenerateTaskWasSuccessful(result)
@@ -53,7 +46,7 @@ class AvrohuggerPluginFunctionalSpec extends Specification {
         inputFile('avro')
 
         when:
-        final result = avroScalaGenerateCalled()
+        final result = project.avroScalaGenerate()
 
         then:
         avroScalaGenerateTaskWasSuccessful(result)
@@ -65,7 +58,7 @@ class AvrohuggerPluginFunctionalSpec extends Specification {
         inputFile('avpr')
 
         when:
-        final result = avroScalaGenerateCalled()
+        final result = project.avroScalaGenerate()
 
         then:
         avroScalaGenerateTaskWasSuccessful(result)
@@ -76,15 +69,7 @@ class AvrohuggerPluginFunctionalSpec extends Specification {
      * Private helper methods
      */
     private File inputFile(String extension) {
-        new File(inputDirecotry, "input.$extension") << read("sample.$extension")
-    }
-
-    private BuildResult avroScalaGenerateCalled() {
-        GradleRunner.create()
-            .withProjectDir(projectDir.root)
-            .withArguments('avroScalaGenerate')
-            .withPluginClasspath()
-            .build()
+        project.inputFile( "input.$extension") << Resources.read("sample.$extension")
     }
 
     private static boolean avroScalaGenerateTaskWasSuccessful(BuildResult result) {
@@ -92,10 +77,7 @@ class AvrohuggerPluginFunctionalSpec extends Specification {
     }
 
     private File generatedScalaFile() {
-        new File(outputDirecotry, 'com/zlad/FullName.scala')
+        project.outputFile('com', 'example', 'FullName.scala')
     }
 
-    private static InputStream read(String resource) {
-        AvrohuggerPluginFunctionalSpec.getClassLoader().getResourceAsStream(resource)
-    }
 }

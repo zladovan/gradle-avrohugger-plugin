@@ -65,12 +65,18 @@ class FileSourceSpec extends Specification {
      * Private helper methods
      */
     private File file(String name) {
-        new File(sourceDirectory.root, name)
+        new File(sourceRoot(), name)
     }
 
     private FileSource createFileSource() {
         final project = ProjectBuilder.builder().build()
-        new FileSource(project.fileTree(sourceDirectory.root))
+        new FileSource(project.fileTree(sourceRoot()))
+    }
+
+    // on mac os temp folder is under /var which is symlink to /private/var
+    // need to resolve real path for comparison
+    private File sourceRoot() {
+        sourceDirectory.root.toPath().toRealPath().toFile()
     }
 
     private static String readSampleAvsc() {
