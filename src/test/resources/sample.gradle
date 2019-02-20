@@ -18,4 +18,5 @@ avrohugger {
     typeMapping {
         protocolType = ScalaADT
     }
+    sourceFormat = Standard
 }

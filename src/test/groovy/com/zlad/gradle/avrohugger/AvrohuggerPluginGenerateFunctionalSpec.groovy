@@ -65,6 +65,30 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         generatedScalaFile().exists()
     }
 
+    def "should generate specific record scala classes"() {
+        given:
+        avscInputWithFormat('SpecificRecord')
+
+        when:
+        final result = project.avroScalaGenerate()
+
+        then:
+        avroScalaGenerateTaskWasSuccessful(result)
+        generatedScalaFile().text.contains('org.apache.avro.specific.SpecificRecordBase')
+    }
+
+    def "should generate scavro scala classes"() {
+        given:
+        avscInputWithFormat('Scavro')
+
+        when:
+        final result = project.avroScalaGenerate()
+
+        then:
+        avroScalaGenerateTaskWasSuccessful(result)
+        generatedScavroFile().exists()
+    }
+
     /*
      * Private helper methods
      */
@@ -80,4 +104,17 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         project.outputFile('com', 'example', 'FullName.scala')
     }
 
+    // scavro format appends `model` to namespace
+    private File generatedScavroFile() {
+        project.outputFile('com', 'example', 'model', 'FullName.scala')
+    }
+
+    private void avscInputWithFormat(String format) {
+        inputFile('avsc')
+        project.buildFile.append("""
+            avrohugger {
+                sourceFormat = ${format}
+            }
+        """.stripIndent())
+    }
 }

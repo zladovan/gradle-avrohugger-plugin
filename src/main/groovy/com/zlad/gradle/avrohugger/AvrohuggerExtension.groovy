@@ -8,11 +8,12 @@ import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
 import org.gradle.util.ConfigureUtil
 
-class AvrohuggerExtension implements CustomTypesValues {
+class AvrohuggerExtension implements CustomTypesValues, SourceFormatValues {
     final ConfigurableFileCollection sourceDirectories
     final DirectoryProperty destinationDirectory
     final Property<Map<String, String>> namespaceMapping
     final Property<CustomTypes> typeMapping
+    final Property<ScalaSourceFormat> sourceFormat
 
     AvrohuggerExtension(Project project) {
         sourceDirectories = project.files()
@@ -26,6 +27,9 @@ class AvrohuggerExtension implements CustomTypesValues {
 
         namespaceMapping = project.objects.property(Map)
         namespaceMapping.set([:])
+
+        sourceFormat = project.objects.property(ScalaSourceFormat)
+        sourceFormat.set(Standard)
     }
 
     void setSourceDirectories(FileCollection files) {
@@ -48,4 +52,7 @@ class AvrohuggerExtension implements CustomTypesValues {
         action.execute(typeMapping.get())
     }
 
+    void setSourceFormat(ScalaSourceFormat format) {
+        sourceFormat.set(format)
+    }
 }

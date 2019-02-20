@@ -32,10 +32,15 @@ class AvrohuggerPlugin implements Plugin<Project> {
 
     private Task reqisterGenerateTask(Project project, AvrohuggerExtension extension) {
         project.tasks.create(TASK_GENERATE_NAME, GenerateScalaTask) {
+            group = "Source Generation"
+            description = "Generate scala case classes from avro schemas, datafiles and protocols."
             source = extension.sourceDirectories
             destinationDir = extension.destinationDirectory
-            customTypes = extension.typeMapping.map { it.toAvroScalaTypes() }
+            customTypes = extension.typeMapping.map {
+                it.toAvroScalaTypes(extension.sourceFormat.get().toAvrohuggerSourceFormat().defaultTypes())
+            }
             customNamespaces = extension.namespaceMapping
+            sourceFormat = extension.sourceFormat
             restrictedFieldNumber = providerFactory.provider(new ScalaVersionBelow2_11(project))
         }
     }

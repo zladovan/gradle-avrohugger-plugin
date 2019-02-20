@@ -1,12 +1,13 @@
 package com.zlad.gradle.avrohugger
 
+import avrohugger.format.Scavro$
 import avrohugger.types.AvroScalaTypes
 import spock.lang.Specification
 
 
 class CustomTypesSpec extends Specification implements CustomTypesValues {
 
-    def "should return default avro scala types"() {
+    def "should return default standard avro scala types"() {
         given:
         final defaults = new CustomTypes()
 
@@ -15,6 +16,17 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         
         then:
         avroScalaTypes == AvroScalaTypes.defaults()
+    }
+
+    def "should return default provided scala types"() {
+        given:
+        final defaults = new CustomTypes()
+
+        when:
+        final avroScalaTypes = defaults.toAvroScalaTypes(Scavro$.MODULE$.defaultTypes())
+
+        then:
+        avroScalaTypes == Scavro$.MODULE$.defaultTypes()
     }
 
     def "should return modified int in avro scala types"() {

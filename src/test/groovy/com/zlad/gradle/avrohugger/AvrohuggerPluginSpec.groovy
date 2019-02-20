@@ -41,6 +41,32 @@ class AvrohuggerPluginSpec extends Specification {
         project.avrohugger.namespaceMapping.get() == [:]
     }
 
+    def "should be applied with default standard source type"() {
+        when:
+        project.pluginManager.apply AvrohuggerPlugin
+
+        then:
+        project.avrohugger.sourceFormat.get() == SourceFormatValues.Standard
+    }
+
+    def "should change default enum type to java enum when applied with specific record source format"() {
+        when:
+        project.pluginManager.apply AvrohuggerPlugin
+        project.avrohugger.sourceFormat = SourceFormatValues.SpecificRecord
+
+        then:
+        project.tasks.avroScalaGenerate.customTypes.get().enum() == CustomTypesValues.JavaEnum
+    }
+
+    def "should change default array type to scala array when applied with scavro source format"() {
+        when:
+        project.pluginManager.apply AvrohuggerPlugin
+        project.avrohugger.sourceFormat = SourceFormatValues.Scavro
+
+        then:
+        project.tasks.avroScalaGenerate.customTypes.get().array() == CustomTypesValues.ScalaArray
+    }
+
     def "should add avro scala generate task to project"() {
         when:
         project.pluginManager.apply AvrohuggerPlugin

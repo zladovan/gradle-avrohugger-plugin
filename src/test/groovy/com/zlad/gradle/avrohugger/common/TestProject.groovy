@@ -9,8 +9,9 @@ class TestProject extends ExternalResource {
     private final TestProjectConfig config
 
     private TemporaryFolder projectDir = new TemporaryFolder()
+    private File buildFile
     private File inputDirectory
-    private File outputDirecotry
+    private File outputDirectory
 
     TestProject(TestProjectConfig config) {
         this.config = config
@@ -19,14 +20,22 @@ class TestProject extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         projectDir.before()
-        projectDir.newFile('build.gradle') << config.buildDefinition
+        buildFile = projectDir.newFile('build.gradle')
+        buildFile << config.buildDefinition
         inputDirectory = projectDir.newFolder(config.inputDirectories as String[])
-        outputDirecotry = projectFile(config.outputDirectories as String[])
+        outputDirectory = projectFile(config.outputDirectories as String[])
     }
 
     @Override
     protected void after() {
         projectDir.after()
+    }
+
+    File getBuildFile() {
+        if (buildFile == null) {
+            throw new IllegalStateException("Build file was not created. Ensure before() method was called.")
+        }
+        buildFile
     }
 
     File getInputDirectory() {
@@ -37,10 +46,10 @@ class TestProject extends ExternalResource {
     }
 
     File getOutputDirectory() {
-        if (outputDirecotry == null) {
+        if (outputDirectory == null) {
             throw new IllegalStateException("Output directory was not created. Ensure before() method was called.")
         }
-        outputDirecotry
+        outputDirectory
     }
 
     GradleRunner createGradleRunner() {

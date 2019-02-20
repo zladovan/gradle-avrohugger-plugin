@@ -1,7 +1,6 @@
 package com.zlad.gradle.avrohugger
 
 import avrohugger.Generator
-import avrohugger.format.Standard$
 import avrohugger.types.AvroScalaTypes
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -27,12 +26,14 @@ class GenerateScalaTask extends SourceTask {
     final Property<Map<String, String>> customNamespaces = project.objects.property(Map)
 
     @Input
+    final Property<ScalaSourceFormat> sourceFormat =  project.objects.property(ScalaSourceFormat)
+
+    @Input
     final Property<Boolean> restrictedFieldNumber =  project.objects.property(Boolean)
 
     @TaskAction
     void generate() {
-        logger.info("Strarting avro scala classes generation.")
-        logger.info("Restricted filed number: ${restrictedFieldNumber.get()}")
+        logger.info("Starting avro scala classes generation.")
         final fileSource = new FileSource(source)
         final destination = destinationDir.get().asFile.getAbsolutePath()
         final generator = createGenerator()
@@ -59,12 +60,18 @@ class GenerateScalaTask extends SourceTask {
     }
 
     private Generator createGenerator() {
-        new Generator(
-            Standard$.MODULE$,
-            Some.apply(customTypes.get()),
-            ScalaConversions.convert(customNamespaces.get()),
-            restrictedFieldNumber.get()
-        )
+        final format = sourceFormat.get().toAvrohuggerSourceFormat()
+        final types = customTypes.get()
+        final namespaces = ScalaConversions.convert(customNamespaces.get())
+        final restricted = restrictedFieldNumber.get()
+        logger.info("""
+            Creating avrohugger generator
+                - format: $format
+                - types: $types
+                - namespaces: $namespaces
+                - restricted: $restricted
+        """.stripIndent())
+        new Generator(format, Some.apply(types), namespaces, restricted)
     }
 
 }

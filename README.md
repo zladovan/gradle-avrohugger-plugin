@@ -57,13 +57,14 @@ avrohugger {
     typeMapping {
         protocolType = ScalaADT
     }
+    sourceFormat = Standard
 }
 ```
 
 ### Description of configuration values
 
 | Name                       | Default                               | Description                              |
-| -------------------------- | ------------------------------------- | ---------------------------------------- |
+| ---------------------------|---------------------------------------| -----------------------------------------|
 | sourceDirectories          | src/main/avro                         | Directories (can be multiple) used to look for `.avsc`, `.avdl`, `.avro` or `.avpr` files as an input for classes generation |
 | destinationDirectory       | ${buildDir}/generated-src/avro        | Directory where classes will be generated |
 | namespaceMapping           | empty map                             | Map where key is name of namespace and value is it's replacement which will be used as package for resulting classes |
@@ -71,19 +72,77 @@ avrohugger {
   
 ### Type mapping values
 
-| Name (avro type)           | Default (scala type)                 | PossibleValues                    |
-| ---------------------------| -------------------------------------| ----------------------------------| 
-| intType                    | ScalaInt                             | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |
-| longType                   | ScalaLong                            | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |   
-| floatType                  | ScalaFloat                           | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |   
-| doubleType                 | ScalaDouble                          | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |   
-| recordType                 | ScalaCaseClass                       | ScalaCaseClass, ScalaCaseClassWithSchema |
-| enumType                   | ScalaEnumeration                     | ScalaEnumeration, JavaEnum, ScalaCaseObjectEnum, EnumAsScalaString |   
-| unionType                  | OptionEitherShapelessCoproduct       | OptionEitherShapelessCoproduct, OptionalShapelessCoproduct, OptionShapelessCoproduct |   
-| arrayType                  | ScalaSeq                             | ScalaSeq, ScalaArray, ScalaList, ScalaVector |   
-| protocolType               | NoTypeGenerated                      | NoTypeGenerated, ScalaADT |
+| Name (avro type)           | Default (scala type)                           | PossibleValues                    |
+| ---------------------------| -----------------------------------------------| ----------------------------------| 
+| intType                    | ScalaInt                                       | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |
+| longType                   | ScalaLong                                      | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |   
+| floatType                  | ScalaFloat                                     | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |   
+| doubleType                 | ScalaDouble                                    | ScalaInt, ScalaLong, ScalaFloat, ScalaDouble |   
+| recordType                 | ScalaCaseClass                                 | ScalaCaseClass, ScalaCaseClassWithSchema |
+| enumType                   | ScalaEnumeration (JavaEnum for SpecificRecord) | ScalaEnumeration, JavaEnum, ScalaCaseObjectEnum, EnumAsScalaString |   
+| unionType                  | OptionEitherShapelessCoproduct                 | OptionEitherShapelessCoproduct, OptionalShapelessCoproduct, OptionShapelessCoproduct |   
+| arrayType                  | ScalaSeq (ScalaArray for Scavro)               | ScalaSeq, ScalaArray, ScalaList, ScalaVector |   
+| protocolType               | NoTypeGenerated                                | NoTypeGenerated, ScalaADT |
 
-> See [avrohugger](https://github.com/julianpeeters/avrohugger) library for all details about types
+> See [avrohugger](https://github.com/julianpeeters/avrohugger/blob/master/README.md#supports-generating-case-classes-with-arbitrary-fields-of-the-following-datatypes) library for all details about types
+
+### Source formats
+
+1. **Standard** - vanilla case classes
+
+2. **SpecificRecord** - case classes implementing `SpecificRecordBase` with mutable fields
+
+   There is need additional dependency on [Apache Avro](https://avro.apache.org/) to compile generated classes with `SpecificRecord` source format.
+   
+   ```groovy
+    dependencies {
+       // ... other dependencies here 
+       compile 'org.apache.avro:avro:1.8.2'
+    }
+    ``` 
+
+3. **Scavro** - case classes intended to wrap java classes 
+
+    There is need additional dependency on [Scavro](https://github.com/oedura/scavro#scavro-reader-and-writer) to compile generated classes with `Scavro` source format.
+    ```groovy
+    dependencies {
+       // ... other dependencies here 
+       compile 'org.oedura:scavro_2.12:1.0.3'
+    }
+    ```
+    
+    Java classes are not generated by `gradle-avrohugger-plugin`. 
+    You can use [gradle-avro-plugin](https://github.com/commercehub-oss/gradle-avro-plugin) to generate java classes.
+    
+    See following example of combining `gradle-avrohugger-plugin` with `gradle-avro-plugin`: 
+    
+    ```groovy
+    plugins {
+        id 'scala'
+        id 'com.commercehub.gradle.plugin.avro' version '0.9.1'
+        id 'com.zlad.gradle.avrohugger' version '0.2.0'
+    }
+    
+    repositories {
+       mavenCentral()
+    }
+    
+    dependencies {
+        compile 'org.scala-lang:scala-library:2.12.8'
+        compile 'org.apache.avro:avro:1.8.2'
+        compile 'org.oedura:scavro_2.12:1.0.3'
+    }
+    
+    avro {
+        stringType = "CharSequence"
+    }
+    
+    avrohugger {
+        sourceFormat = Scavro
+    }
+    ```
+
+> See [avrohugger](https://github.com/julianpeeters/avrohugger/blob/master/README.md#generates-scala-case-classes-in-various-formats) library for all details about different formats
 
 ### How to change default source set
 
@@ -118,4 +177,4 @@ Plugin can be built and tested using:
 
 Core generation logic is implemented by [Julian Peeters](https://github.com/julianpeeters) 
 in scala library called [avrohugger](https://github.com/julianpeeters/avrohugger).
-Plugin was heavily inspired by it's sbt version [sbt-avrohugger](https://github.com/julianpeeters/sbt-avrohugger). 
+Plugin was inspired by it's sbt version [sbt-avrohugger](https://github.com/julianpeeters/sbt-avrohugger). 
