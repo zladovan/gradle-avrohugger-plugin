@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class AvrohuggerPlugin implements Plugin<Project> {
     static final EXTENSION_NAME = 'avrohugger'
-    static final TASK_GENERATE_NAME = 'avroScalaGenerate'
+    static final TASK_GENERATE_NAME = 'generateAvroScala'
 
     private final ProviderFactory providerFactory
 

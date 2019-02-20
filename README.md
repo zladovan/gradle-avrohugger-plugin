@@ -43,7 +43,7 @@ Then by default scala classes generation will be triggered during build before `
 It will look into directory `src/main/avro` for all files ending with `.avsc`, `.avdl`, `.avro` or `.avpr`.
 Classes will be generated under `${buildDir}/generated-src/avro` and they will be added to `main` scala source set.
 
-> You can always call `avroScalaGenerate` task to perform classes generation only
+> You can always call `generateAvroScala` task to perform classes generation only
 
 ## Configuration
 

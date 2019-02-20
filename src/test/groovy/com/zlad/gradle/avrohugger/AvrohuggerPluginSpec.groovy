@@ -55,7 +55,7 @@ class AvrohuggerPluginSpec extends Specification {
         project.avrohugger.sourceFormat = SourceFormatValues.SpecificRecord
 
         then:
-        project.tasks.avroScalaGenerate.customTypes.get().enum() == CustomTypesValues.JavaEnum
+        project.tasks.generateAvroScala.customTypes.get().enum() == CustomTypesValues.JavaEnum
     }
 
     def "should change default array type to scala array when applied with scavro source format"() {
@@ -64,7 +64,7 @@ class AvrohuggerPluginSpec extends Specification {
         project.avrohugger.sourceFormat = SourceFormatValues.Scavro
 
         then:
-        project.tasks.avroScalaGenerate.customTypes.get().array() == CustomTypesValues.ScalaArray
+        project.tasks.generateAvroScala.customTypes.get().array() == CustomTypesValues.ScalaArray
     }
 
     def "should add avro scala generate task to project"() {
@@ -72,7 +72,7 @@ class AvrohuggerPluginSpec extends Specification {
         project.pluginManager.apply AvrohuggerPlugin
 
         then:
-        project.tasks.collect { it.name }.contains('avroScalaGenerate')
+        project.tasks.collect { it.name }.contains('generateAvroScala')
     }
     
 }

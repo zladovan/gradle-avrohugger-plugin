@@ -67,8 +67,8 @@ class TestProject extends ExternalResource {
         run('build')
     }
 
-    BuildResult avroScalaGenerate() {
-        run('avroScalaGenerate')
+    BuildResult generateAvroScala() {
+        run('generateAvroScala')
     }
 
     File inputFile(String... path) {

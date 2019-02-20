@@ -21,10 +21,10 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         inputFile('avsc')
 
         when:
-        final result = project.avroScalaGenerate()
+        final result = project.generateAvroScala()
 
         then:
-        avroScalaGenerateTaskWasSuccessful(result)
+        generateAvroScalaTaskWasSuccessful(result)
         generatedScalaFile().exists()
     }
 
@@ -33,10 +33,10 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         inputFile('avdl')
 
         when:
-        final result = project.avroScalaGenerate()
+        final result = project.generateAvroScala()
 
         then:
-        avroScalaGenerateTaskWasSuccessful(result)
+        generateAvroScalaTaskWasSuccessful(result)
         generatedScalaFile().exists()
     }
 
@@ -46,10 +46,10 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         inputFile('avro')
 
         when:
-        final result = project.avroScalaGenerate()
+        final result = project.generateAvroScala()
 
         then:
-        avroScalaGenerateTaskWasSuccessful(result)
+        generateAvroScalaTaskWasSuccessful(result)
         generatedScalaFile().exists()
     }
 
@@ -58,10 +58,10 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         inputFile('avpr')
 
         when:
-        final result = project.avroScalaGenerate()
+        final result = project.generateAvroScala()
 
         then:
-        avroScalaGenerateTaskWasSuccessful(result)
+        generateAvroScalaTaskWasSuccessful(result)
         generatedScalaFile().exists()
     }
 
@@ -70,10 +70,10 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         avscInputWithFormat('SpecificRecord')
 
         when:
-        final result = project.avroScalaGenerate()
+        final result = project.generateAvroScala()
 
         then:
-        avroScalaGenerateTaskWasSuccessful(result)
+        generateAvroScalaTaskWasSuccessful(result)
         generatedScalaFile().text.contains('org.apache.avro.specific.SpecificRecordBase')
     }
 
@@ -82,10 +82,10 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         avscInputWithFormat('Scavro')
 
         when:
-        final result = project.avroScalaGenerate()
+        final result = project.generateAvroScala()
 
         then:
-        avroScalaGenerateTaskWasSuccessful(result)
+        generateAvroScalaTaskWasSuccessful(result)
         generatedScavroFile().exists()
     }
 
@@ -96,8 +96,8 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         project.inputFile( "input.$extension") << Resources.read("sample.$extension")
     }
 
-    private static boolean avroScalaGenerateTaskWasSuccessful(BuildResult result) {
-        result.task(":avroScalaGenerate").outcome == SUCCESS
+    private static boolean generateAvroScalaTaskWasSuccessful(BuildResult result) {
+        result.task(":generateAvroScala").outcome == SUCCESS
     }
 
     private File generatedScalaFile() {
