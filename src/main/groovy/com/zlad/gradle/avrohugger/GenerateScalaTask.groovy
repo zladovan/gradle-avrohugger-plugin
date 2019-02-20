@@ -4,6 +4,7 @@ import avrohugger.Generator
 import avrohugger.types.AvroScalaTypes
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
@@ -12,6 +13,7 @@ import scala.Some
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@CacheableTask
 class GenerateScalaTask extends SourceTask {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateScalaTask)
