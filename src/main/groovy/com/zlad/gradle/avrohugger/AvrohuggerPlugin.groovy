@@ -3,6 +3,7 @@ package com.zlad.gradle.avrohugger
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.provider.ProviderFactory
 
 import javax.inject.Inject
@@ -20,10 +21,12 @@ class AvrohuggerPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.plugins.apply(BasePlugin)
         def extension = registerExtension(project)
         def task = reqisterGenerateTask(project, extension)
         registerGeneratedSources(project, extension)
         registerGenerateTaskBuildDependency(project, task)
+        registerCleanDestinationDirectory(project, extension)
     }
 
     private static AvrohuggerExtension registerExtension(Project project) {
@@ -72,6 +75,14 @@ class AvrohuggerPlugin implements Plugin<Project> {
     private static void registerGenerateTaskBuildDependency(Project project, Task task) {
         project.afterEvaluate {
             project.tasks.findByName('compileScala')?.dependsOn(task)
+        }
+    }
+
+    private static void registerCleanDestinationDirectory(Project project, AvrohuggerExtension extension) {
+        project.afterEvaluate {
+            project.tasks.findByName('clean')?.configure {
+                delete extension.destinationDirectory
+            }
         }
     }
 

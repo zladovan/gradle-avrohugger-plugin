@@ -7,6 +7,8 @@ import org.gradle.testkit.runner.BuildResult
 import org.junit.Rule
 import spock.lang.Specification
 
+import java.nio.file.Files
+
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
@@ -89,6 +91,17 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         generatedScavroFile().exists()
     }
 
+    def "should delete destination directory on clean"() {
+        given:
+        final newDestinationDirectory = destinationDirectoryOutsideBuild()
+
+        when:
+        project.clean()
+
+        then:
+        ! newDestinationDirectory.exists()
+    }
+
     /*
      * Private helper methods
      */
@@ -116,5 +129,16 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
                 sourceFormat = ${format}
             }
         """.stripIndent())
+    }
+
+    private File destinationDirectoryOutsideBuild() {
+        project.buildFile.append("""
+            avrohugger {
+                destinationDirectory = file('output')
+            }
+        """.stripIndent())
+        final File newDestinationDirectory = project.projectFile('output')
+        Files.createDirectories(newDestinationDirectory.toPath())
+        newDestinationDirectory
     }
 }

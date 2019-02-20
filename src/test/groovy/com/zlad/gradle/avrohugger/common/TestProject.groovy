@@ -67,6 +67,10 @@ class TestProject extends ExternalResource {
         run('build')
     }
 
+    BuildResult clean() {
+        run('clean')
+    }
+
     BuildResult generateAvroScala() {
         run('generateAvroScala')
     }
