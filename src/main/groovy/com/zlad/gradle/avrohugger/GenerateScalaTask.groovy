@@ -1,6 +1,5 @@
 package com.zlad.gradle.avrohugger
 
-import avrohugger.Generator
 import avrohugger.types.AvroScalaTypes
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -9,14 +8,19 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
-import scala.Some
+import org.gradle.workers.IsolationMode
+import org.gradle.workers.WorkerExecutor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import javax.inject.Inject
 
 @CacheableTask
 class GenerateScalaTask extends SourceTask {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateScalaTask)
+
+    private final WorkerExecutor workerExecutor
 
     @OutputDirectory
     final DirectoryProperty destinationDir = project.layout.directoryProperty()
@@ -33,47 +37,48 @@ class GenerateScalaTask extends SourceTask {
     @Input
     final Property<Boolean> restrictedFieldNumber =  project.objects.property(Boolean)
 
+    @Inject
+    GenerateScalaTask(WorkerExecutor workerExecutor) {
+        super()
+        this.workerExecutor = workerExecutor
+    }
+
     @TaskAction
     void generate() {
         logger.info("Starting avro scala classes generation.")
         final fileSource = new FileSource(source)
-        final destination = destinationDir.get().asFile.getAbsolutePath()
-        final generator = createGenerator()
+        final files = [
+            "Avro schema":   fileSource.getAvscFiles(),
+            "Avro IDL":      fileSource.getAvdlFiles(),
+            "Avro datafile": fileSource.getAvroFiles(),
+            "Avro protocol": fileSource.getAvprFiles()
+        ]
+        submitWork(createGeneratorFactory(), destinationDir.get().asFile.getAbsolutePath(), files)
+    }
 
-        fileSource.getAvscFiles().forEach {
-            logger.info("Compiling AVSC $it to $destination")
-            generator.fileToFile(it, destination)
-        }
+    private GeneratorFactory createGeneratorFactory() {
+        new GeneratorFactory(
+            sourceFormat: sourceFormat.get(),
+            types: customTypes.get(),
+            customNamespaces: customNamespaces.get(),
+            restrictedFieldNumber: restrictedFieldNumber.get()
+        )
+    }
 
-        fileSource.getAvdlFiles().forEach {
-            logger.info("Compiling Avro IDL $it to $destination")
-            generator.fileToFile(it, destination)
-        }
-
-        fileSource.getAvroFiles().forEach {
-            logger.info("Compiling Avro datafile $it to $destination")
-            generator.fileToFile(it, destination)
-        }
-
-        fileSource.getAvprFiles().forEach {
-            logger.info("Compiling Avro protocol $it to $destination")
-            generator.fileToFile(it, destination)
+    // need to run generating in separate process because avrohugger is creating (temp) directory `target` which is not deleted while gradle daemon is alive
+    // when run as separate process `target` is created under `~/.gradle/workers/` and it's minimally not polluting users project
+    private def submitWork = { GeneratorFactory generatorFactory, String destination, Map<String, Collection<File>> inputFiles ->
+        if ( ! inputFiles.isEmpty()) {
+            workerExecutor.submit(Generate) { config ->
+                config.setIsolationMode(IsolationMode.PROCESS)
+                config.params(generatorFactory, destination, inputFiles)
+            }
         }
     }
 
-    private Generator createGenerator() {
-        final format = sourceFormat.get().toAvrohuggerSourceFormat()
-        final types = customTypes.get()
-        final namespaces = ScalaConversions.convert(customNamespaces.get())
-        final restricted = restrictedFieldNumber.get()
-        logger.info("""
-            Creating avrohugger generator
-                - format: $format
-                - types: $types
-                - namespaces: $namespaces
-                - restricted: $restricted
-        """.stripIndent())
-        new Generator(format, Some.apply(types), namespaces, restricted)
+    // needed for access from submitWork
+    WorkerExecutor getWorkerExecutor() {
+        workerExecutor
     }
 
 }
