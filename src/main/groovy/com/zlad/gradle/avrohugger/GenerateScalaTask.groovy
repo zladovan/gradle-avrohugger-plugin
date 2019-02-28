@@ -65,12 +65,13 @@ class GenerateScalaTask extends SourceTask {
         )
     }
 
-    // need to run generating in separate process because avrohugger is creating (temp) directory `target` which is not deleted while gradle daemon is alive
+    // when SpecificRecord or Scavro format used there is need to run generating in separate process
+    // because avrohugger is creating (temp) directory `target` which is not deleted while gradle daemon is alive
     // when run as separate process `target` is created under `~/.gradle/workers/` and it's minimally not polluting users project
     private def submitWork = { GeneratorFactory generatorFactory, String destination, Map<String, Collection<File>> inputFiles ->
         if ( ! inputFiles.isEmpty()) {
             workerExecutor.submit(Generate) { config ->
-                config.setIsolationMode(IsolationMode.PROCESS)
+                config.setIsolationMode(sourceFormat.get() == ScalaSourceFormat.Standard ? IsolationMode.NONE : IsolationMode.PROCESS)
                 config.params(generatorFactory, destination, inputFiles)
             }
         }
