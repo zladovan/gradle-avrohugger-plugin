@@ -17,7 +17,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.2.2'
+    id 'com.zlad.gradle.avrohugger' version '0.2.3'
 }
 ```
 
@@ -27,7 +27,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.2.2'
+    id 'com.zlad.gradle.avrohugger' version '0.2.3'
 }
 
 repositories {
@@ -120,7 +120,7 @@ avrohugger {
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.9.1'
-        id 'com.zlad.gradle.avrohugger' version '0.2.2'
+        id 'com.zlad.gradle.avrohugger' version '0.2.3'
     }
     
     repositories {
@@ -157,6 +157,37 @@ sourceSets {
     }
 }
 ```
+
+### How to use schema files from dependencies
+
+If you have schema files provided as part of one or more `jar` files you can include them as dependencies and configure `avrohugger` to use them:
+
+1. Define new configuration
+
+    ```groovy
+    configurations {
+        avroSchema
+    }
+    ```
+
+2. Declare dependencies
+
+    ```groovy
+    dependencies {
+        avroSchema 'sample:schema-one:0.1.0'
+        avroSchema 'sample:schema-two:0.1.0'
+    }
+    ```
+
+3. Configure avrohugger
+
+    ```groovy
+    avrohugger {
+        sourceDirectories {
+            from configurations.avroSchema.files.collect { zipTree(it) }
+        }
+    }
+    ```
 
 ## Scala 2.10 support
 

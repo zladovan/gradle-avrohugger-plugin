@@ -36,6 +36,25 @@ class AvrohuggerExtension implements CustomTypesValues, SourceFormatValues {
         sourceDirectories.setFrom(files)
     }
 
+    /**
+     * Enables configuring sourceDirectories with closure like this:
+     *
+     * <pre>
+     * sourceDirectories {
+     *     from 'src/main/avro'
+     *     // from compile dependencies
+     *     from configurations.compile.files.collect { zipTree(it) }
+     * }
+     * </pre>
+     */
+    void sourceDirectories(@DelegatesTo(ConfigurableFileCollection) Closure c) {
+        sourceDirectories(ConfigureUtil.configureUsing(c))
+    }
+
+    void sourceDirectories(Action<? super ConfigurableFileCollection> action) {
+        action.execute(sourceDirectories)
+    }
+
     void setDestinationDirectory(File file) {
         destinationDirectory.set(file)
     }

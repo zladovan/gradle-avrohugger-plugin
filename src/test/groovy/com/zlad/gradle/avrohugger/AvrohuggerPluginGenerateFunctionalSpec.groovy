@@ -91,6 +91,18 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         generatedScavroFile().exists()
     }
 
+    def "should generate classes from schema in archive"() {
+        given:
+        zipArchiveInput()
+
+        when:
+        final result = project.generateAvroScala()
+
+        then:
+        generateAvroScalaTaskWasSuccessful(result)
+        generatedScalaFile().exists()
+    }
+
     def "should delete destination directory on clean"() {
         given:
         final newDestinationDirectory = destinationDirectoryOutsideBuild()
@@ -127,6 +139,17 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         project.buildFile.append("""
             avrohugger {
                 sourceFormat = ${format}
+            }
+        """.stripIndent())
+    }
+
+    private zipArchiveInput() {
+        inputFile('zip')
+        project.buildFile.append("""
+            avrohugger {
+                sourceDirectories {
+                    from zipTree('src/main/avro/input.zip')
+                }
             }
         """.stripIndent())
     }
