@@ -145,5 +145,44 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         then:
         avroScalaTypes.protocol() == ScalaADT
     }
+
+    def "should return modified decimal in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                decimalType: ScalaBigDecimalWithPrecision
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.decimal() == ScalaBigDecimalWithPrecision
+    }
+
+    def "should return modified date in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                dateType: JavaSqlDate
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.date() == JavaSqlDate
+    }
+
+    def "should return modified timestamp millis in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                timestampMillisType: JavaSqlTimestamp
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.timestampMillis() == JavaSqlTimestamp
+    }
     
 }

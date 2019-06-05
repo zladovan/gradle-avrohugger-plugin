@@ -2,12 +2,19 @@ package com.zlad.gradle.avrohugger
 
 import avrohugger.types.EnumAsScalaString$
 import avrohugger.types.JavaEnum$
+import avrohugger.types.JavaSqlDate$
+import avrohugger.types.JavaSqlTimestamp$
+import avrohugger.types.JavaTimeInstant$
+import avrohugger.types.JavaTimeLocalDate$
+import avrohugger.types.JavaUuid$
 import avrohugger.types.NoTypeGenerated$
 import avrohugger.types.OptionEitherShapelessCoproduct$
 import avrohugger.types.OptionShapelessCoproduct$
 import avrohugger.types.OptionalShapelessCoproduct$
 import avrohugger.types.ScalaADT$
 import avrohugger.types.ScalaArray$
+import avrohugger.types.ScalaBigDecimal$
+import avrohugger.types.ScalaBigDecimalWithPrecision$
 import avrohugger.types.ScalaBinary$
 import avrohugger.types.ScalaBoolean$
 import avrohugger.types.ScalaByteArray$
@@ -79,4 +86,19 @@ interface CustomTypesValues {
     // protocol
     ScalaADT$ ScalaADT = ScalaADT$.MODULE$
     NoTypeGenerated$ NoTypeGenerated = NoTypeGenerated$.MODULE$
+
+    // decimal
+    ScalaBigDecimal$ ScalaBigDecimal = ScalaBigDecimal$.MODULE$
+    ScalaBigDecimalWithPrecision$ ScalaBigDecimalWithPrecision = ScalaBigDecimalWithPrecision$.MODULE$
+
+    // date
+    JavaTimeLocalDate$ JavaTimeLocalDate = JavaTimeLocalDate$.MODULE$
+    JavaSqlDate$ JavaSqlDate = JavaSqlDate$.MODULE$
+
+    // timestamp millis
+    JavaTimeInstant$ JavaTimeInstant = JavaTimeInstant$.MODULE$
+    JavaSqlTimestamp$ JavaSqlTimestamp = JavaSqlTimestamp$.MODULE$
+
+    // uuid
+    JavaUuid$ JavaUuid = JavaUuid$.MODULE$
 }

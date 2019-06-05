@@ -17,7 +17,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.2.3'
+    id 'com.zlad.gradle.avrohugger' version '0.2.5'
 }
 ```
 
@@ -27,7 +27,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.2.3'
+    id 'com.zlad.gradle.avrohugger' version '0.2.5'
 }
 
 repositories {
@@ -83,6 +83,10 @@ avrohugger {
 | unionType                  | OptionEitherShapelessCoproduct                 | OptionEitherShapelessCoproduct, OptionalShapelessCoproduct, OptionShapelessCoproduct |   
 | arrayType                  | ScalaSeq (ScalaArray for Scavro)               | ScalaSeq, ScalaArray, ScalaList, ScalaVector |   
 | protocolType               | NoTypeGenerated                                | NoTypeGenerated, ScalaADT |
+| decimalType                | ScalaBigDecimal                                | ScalaBigDecimal, ScalaBigDecimalWithPrecision |
+| dateType                   | JavaTimeLocalDate                              | JavaTimeLocalDate, JavaSqlDate |
+| timestampMillisType        | JavaTimeInstant                                | JavaTimeInstant, JavaSqlTimestamp |
+| uuidType                   | JavaUuid                                       | JavaUuid |                                    
 
 > See [avrohugger](https://github.com/julianpeeters/avrohugger/blob/master/README.md#supports-generating-case-classes-with-arbitrary-fields-of-the-following-datatypes) library for all details about types
 
@@ -120,7 +124,7 @@ avrohugger {
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.9.1'
-        id 'com.zlad.gradle.avrohugger' version '0.2.3'
+        id 'com.zlad.gradle.avrohugger' version '0.2.5'
     }
     
     repositories {
