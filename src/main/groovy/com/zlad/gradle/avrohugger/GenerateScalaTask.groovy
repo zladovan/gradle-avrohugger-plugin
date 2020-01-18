@@ -2,6 +2,7 @@ package com.zlad.gradle.avrohugger
 
 import avrohugger.types.AvroScalaTypes
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
@@ -23,13 +24,13 @@ class GenerateScalaTask extends SourceTask {
     private final WorkerExecutor workerExecutor
 
     @OutputDirectory
-    final DirectoryProperty destinationDir = project.layout.directoryProperty()
+    final DirectoryProperty destinationDir = project.objects.directoryProperty()
 
     @Input
     final Property<AvroScalaTypes> customTypes =  project.objects.property(AvroScalaTypes)
 
     @Input
-    final Property<Map<String, String>> customNamespaces = project.objects.property(Map)
+    final MapProperty<String, String> customNamespaces = project.objects.mapProperty(String,String)
 
     @Input
     final Property<ScalaSourceFormat> sourceFormat =  project.objects.property(ScalaSourceFormat)

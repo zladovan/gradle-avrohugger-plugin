@@ -5,13 +5,14 @@ import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileCollection
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.util.ConfigureUtil
 
 class AvrohuggerExtension implements CustomTypesValues, SourceFormatValues {
     final ConfigurableFileCollection sourceDirectories
     final DirectoryProperty destinationDirectory
-    final Property<Map<String, String>> namespaceMapping
+    final MapProperty<String, String> namespaceMapping
     final Property<CustomTypes> typeMapping
     final Property<ScalaSourceFormat> sourceFormat
 
@@ -19,13 +20,13 @@ class AvrohuggerExtension implements CustomTypesValues, SourceFormatValues {
         sourceDirectories = project.files()
         sourceDirectories.setFrom(project.files('src/main/avro'))
 
-        destinationDirectory = project.layout.directoryProperty()
+        destinationDirectory = project.objects.directoryProperty()
         destinationDirectory.set(project.file("${project.buildDir}/generated-src/avro"))
 
         typeMapping = project.objects.property(CustomTypes)
         typeMapping.set(new CustomTypes())
 
-        namespaceMapping = project.objects.property(Map)
+        namespaceMapping = project.objects.mapProperty(String,String)
         namespaceMapping.set([:])
 
         sourceFormat = project.objects.property(ScalaSourceFormat)
