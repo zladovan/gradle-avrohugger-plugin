@@ -1,3 +1,5 @@
+dist: trusty
+
 language: groovy
 
 jdk: oraclejdk8
