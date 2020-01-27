@@ -6,6 +6,7 @@ import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
@@ -78,7 +79,7 @@ class GenerateScalaTask extends SourceTask {
         }
     }
 
-    // needed for access from submitWork
+    @Internal("needed for access from submitWork")
     WorkerExecutor getWorkerExecutor() {
         workerExecutor
     }

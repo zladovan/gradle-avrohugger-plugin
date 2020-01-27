@@ -14,10 +14,10 @@ group = 'com.zlad.gradle'
 version = resolveVersion()
 
 dependencies {
-    compile "com.julianpeeters:avrohugger-core_$scalaMajorVersion:$avrohuggerVersion"
-    compile "com.julianpeeters:avrohugger-filesorter_$scalaMajorVersion:$avrohuggerVersion"
+    implementation "com.julianpeeters:avrohugger-core_$scalaMajorVersion:$avrohuggerVersion"
+    implementation "com.julianpeeters:avrohugger-filesorter_$scalaMajorVersion:$avrohuggerVersion"
 
-    testCompile("org.spockframework:spock-core:$spockVersion") {
+    testImplementation("org.spockframework:spock-core:$spockVersion") {
         exclude group: 'org.codehaus.groovy'
     }
 }
