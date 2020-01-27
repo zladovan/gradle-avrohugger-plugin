@@ -24,6 +24,12 @@ class GeneratorFactory implements Serializable {
                 - namespaces: $namespaces
                 - restricted: $restrictedFieldNumber
         """.stripIndent())
-        new Generator(format, Some.apply(types), namespaces, restrictedFieldNumber)
+        new Generator(
+                format, 
+                Some.apply(types),
+                namespaces,
+                restrictedFieldNumber,
+                Thread.currentThread().contextClassLoader
+        )
     }
 }

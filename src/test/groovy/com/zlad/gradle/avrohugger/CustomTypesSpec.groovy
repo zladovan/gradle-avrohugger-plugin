@@ -159,6 +159,19 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         avroScalaTypes.decimal() == ScalaBigDecimalWithPrecision
     }
 
+    def "should return modified decimal with rounding mode in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                decimalType: ScalaBigDecimal_CEILING
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.decimal() == ScalaBigDecimal_CEILING
+    }
+
     def "should return modified date in avro scala types"() {
         given:
         final modified = new CustomTypes(

@@ -19,7 +19,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.3.1'
+    id 'com.zlad.gradle.avrohugger' version '0.4.0'
 }
 ```
 
@@ -29,7 +29,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.3.1'
+    id 'com.zlad.gradle.avrohugger' version '0.4.0'
 }
 
 repositories {
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.12.8'
+    implementation 'org.scala-lang:scala-library:2.12.10'
 }
 ```
 
@@ -90,7 +90,10 @@ avrohugger {
 | timestampMillisType        | JavaTimeInstant                                | JavaTimeInstant, JavaSqlTimestamp |
 | uuidType                   | JavaUuid                                       | JavaUuid |                                    
 
-> See [avrohugger](https://github.com/julianpeeters/avrohugger/blob/master/README.md#supports-generating-case-classes-with-arbitrary-fields-of-the-following-datatypes) library for all details about types
+> See [avrohugger](https://github.com/julianpeeters/avrohugger/blob/master/README.md#supports-generating-case-classes-with-arbitrary-fields-of-the-following-datatypes) library for all details about types.
+ 
+To set rounding mode for decimal types append underscore followed by rounding mode e.g. `ScalaBigDecimal_UP` or `ScalaBigDecimalWithPrecision_DOWN`, 
+where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`, `HALF_DOWN`, `HALF_EVEN` and `UNNECESSARY`.
 
 ### Source formats
 
@@ -126,7 +129,7 @@ avrohugger {
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.9.1'
-        id 'com.zlad.gradle.avrohugger' version '0.3.1'
+        id 'com.zlad.gradle.avrohugger' version '0.4.0'
     }
     
     repositories {
@@ -134,9 +137,9 @@ avrohugger {
     }
     
     dependencies {
-        compile 'org.scala-lang:scala-library:2.12.8'
-        compile 'org.apache.avro:avro:1.8.2'
-        compile 'org.oedura:scavro_2.12:1.0.3'
+        implementation 'org.scala-lang:scala-library:2.12.10'
+        implementation 'org.apache.avro:avro:1.8.2'
+        implementation 'org.oedura:scavro_2.12:1.0.3'
     }
     
     avro {

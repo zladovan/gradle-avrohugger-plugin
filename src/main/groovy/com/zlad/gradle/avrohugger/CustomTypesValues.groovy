@@ -13,8 +13,8 @@ import avrohugger.types.OptionShapelessCoproduct$
 import avrohugger.types.OptionalShapelessCoproduct$
 import avrohugger.types.ScalaADT$
 import avrohugger.types.ScalaArray$
-import avrohugger.types.ScalaBigDecimal$
-import avrohugger.types.ScalaBigDecimalWithPrecision$
+import avrohugger.types.ScalaBigDecimal
+import avrohugger.types.ScalaBigDecimalWithPrecision
 import avrohugger.types.ScalaBinary$
 import avrohugger.types.ScalaBoolean$
 import avrohugger.types.ScalaByteArray$
@@ -32,6 +32,8 @@ import avrohugger.types.ScalaNull$
 import avrohugger.types.ScalaSeq$
 import avrohugger.types.ScalaString$
 import avrohugger.types.ScalaVector$
+import scala.Some
+import scala.math.BigDecimal
 
 /**
  * Constants for original avrohugger scala type objects to provide nice names in DSL.
@@ -88,8 +90,24 @@ interface CustomTypesValues {
     NoTypeGenerated$ NoTypeGenerated = NoTypeGenerated$.MODULE$
 
     // decimal
-    ScalaBigDecimal$ ScalaBigDecimal = ScalaBigDecimal$.MODULE$
-    ScalaBigDecimalWithPrecision$ ScalaBigDecimalWithPrecision = ScalaBigDecimalWithPrecision$.MODULE$
+    ScalaBigDecimal ScalaBigDecimal = new ScalaBigDecimal()
+    ScalaBigDecimal ScalaBigDecimal_UP = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.UP()))
+    ScalaBigDecimal ScalaBigDecimal_DOWN = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.DOWN()))
+    ScalaBigDecimal ScalaBigDecimal_CEILING = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.CEILING()))
+    ScalaBigDecimal ScalaBigDecimal_FLOOR = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.FLOOR()))
+    ScalaBigDecimal ScalaBigDecimal_HALF_UP = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.HALF_UP()))
+    ScalaBigDecimal ScalaBigDecimal_HALF_DOWN = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.HALF_DOWN()))
+    ScalaBigDecimal ScalaBigDecimal_HALF_EVEN = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.HALF_EVEN()))
+    ScalaBigDecimal ScalaBigDecimal_UNNECESSARY = new ScalaBigDecimal(new Some(BigDecimal.RoundingMode$.MODULE$.UNNECESSARY()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision = new ScalaBigDecimalWithPrecision()
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_UP = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.UP()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_DOWN = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.DOWN()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_CEILING = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.CEILING()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_FLOOR = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.FLOOR()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_HALF_UP = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.HALF_UP()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_HALF_DOWN = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.HALF_DOWN()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_HALF_EVEN = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.HALF_EVEN()))
+    ScalaBigDecimalWithPrecision ScalaBigDecimalWithPrecision_UNNECESSARY = new ScalaBigDecimalWithPrecision(new Some(BigDecimal.RoundingMode$.MODULE$.UNNECESSARY()))
 
     // date
     JavaTimeLocalDate$ JavaTimeLocalDate = JavaTimeLocalDate$.MODULE$
