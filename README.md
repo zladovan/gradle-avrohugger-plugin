@@ -9,7 +9,9 @@ It is based on [avrohugger](https://github.com/julianpeeters/avrohugger) scala l
 
 ## Requirements
 
-Plugin requires **Gradle** in version **4.3** or higher. 
+Plugin requires **Gradle** in version **5.1** or higher. 
+
+>Use plugin in version `0.2.5` for compatibility down to **Gradle 4.3**
 
 ## Usage
 
@@ -17,7 +19,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.2.5'
+    id 'com.zlad.gradle.avrohugger' version '0.3.0'
 }
 ```
 
@@ -27,7 +29,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.2.5'
+    id 'com.zlad.gradle.avrohugger' version '0.3.0'
 }
 
 repositories {
@@ -124,7 +126,7 @@ avrohugger {
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.9.1'
-        id 'com.zlad.gradle.avrohugger' version '0.2.5'
+        id 'com.zlad.gradle.avrohugger' version '0.3.0'
     }
     
     repositories {
@@ -213,3 +215,7 @@ Plugin can be built and tested using:
 Core generation logic is implemented by [Julian Peeters](https://github.com/julianpeeters) 
 in scala library called [avrohugger](https://github.com/julianpeeters/avrohugger).
 Plugin was inspired by it's sbt version [sbt-avrohugger](https://github.com/julianpeeters/sbt-avrohugger). 
+
+Thanks to following people for contribution:
+
+ - [Andre White](https://github.com/adarro)
