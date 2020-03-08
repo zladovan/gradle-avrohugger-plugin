@@ -47,8 +47,8 @@ class ScalaVersionBelow2_11Spec extends Specification {
      * Private helper methods
      */
     private void projectWithScalaLibrary(String version) {
-        project.configurations.create('compile')
-        project.dependencies.add('compile', scalaLibrary(version))
+        project.pluginManager.apply("java")
+        project.dependencies.add('implementation', scalaLibrary(version))
     }
 
     private static String scalaLibrary(String version) {

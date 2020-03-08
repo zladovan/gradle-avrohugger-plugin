@@ -36,7 +36,7 @@ class ScalaVersionBelow2_11 implements Callable<Boolean> {
 
     // look for scala library in compile dependencies
     private static VersionNumber findScalaVersion(Project project) {
-        final Set<Dependency> dependencies = project.configurations.findByName('compile')?.allDependencies ?: []
+        final Set<Dependency> dependencies = project.configurations.findByName('compileClasspath')?.allDependencies ?: []
         final scalaLibrary =  dependencies.find {
             SCALA_GROUP == it.group && SCALA_ARTIFACT == it.name
         }
