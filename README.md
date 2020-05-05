@@ -19,7 +19,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.4.3'
+    id 'com.zlad.gradle.avrohugger' version '0.4.4'
 }
 ```
 
@@ -29,7 +29,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.4.3'
+    id 'com.zlad.gradle.avrohugger' version '0.4.4'
 }
 
 repositories {
@@ -146,7 +146,7 @@ where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`,
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.17.0'
-        id 'com.zlad.gradle.avrohugger' version '0.4.3'
+        id 'com.zlad.gradle.avrohugger' version '0.4.4'
     }
     
     repositories {
