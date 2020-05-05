@@ -1,6 +1,5 @@
 package com.zlad.gradle.avrohugger
 
-import groovy.transform.InheritConstructors
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.util.VersionNumber
@@ -34,20 +33,31 @@ class ScalaVersionBelow2_11 implements Callable<Boolean> {
         findScalaVersion(project) <  SCALA_VERSION_2_11
     }
 
-    // look for scala library in compile dependencies
     private static VersionNumber findScalaVersion(Project project) {
-        final Set<Dependency> dependencies = project.configurations.findByName('compileClasspath')?.allDependencies ?: []
-        final scalaLibrary =  dependencies.find {
-            SCALA_GROUP == it.group && SCALA_ARTIFACT == it.name
+        def version = findScalaVersionOnCompileClasspath(project)
+        // if version is not valid or not found try to parse `scalaVersion` project property
+        // this is fallback mainly for https://github.com/ADTRAN/gradle-scala-multiversion-plugin
+        if (version == VersionNumber.UNKNOWN) {
+            version = VersionNumber.parse(project.properties.get("scalaVersion")?.toString())
         }
-        final versionString = scalaLibrary?.version
-        if (versionString == null) {
+        // if version is still not found give up and pretend that version is 2.11 (no 2.10 backward compatibility)
+        if (version == VersionNumber.UNKNOWN) {
             logger.warn(
                 "Scala library dependency was not found. " +
                 "Avrohugger plugin will use by default `$SCALA_VERSION_2_11` for check if scala version is below 2.11."
             )
             return SCALA_VERSION_2_11
         }
-        VersionNumber.parse(versionString)
+        return version
+    }
+
+    // look for scala library in compile classpath dependencies
+    private static VersionNumber findScalaVersionOnCompileClasspath(Project project) {
+        final Set<Dependency> dependencies = project.configurations.findByName('compileClasspath')?.allDependencies ?: []
+        final scalaLibrary =  dependencies.find {
+            SCALA_GROUP == it.group && SCALA_ARTIFACT == it.name
+        }
+        final versionString = scalaLibrary?.version
+        return VersionNumber.parse(versionString)
     }
 }
