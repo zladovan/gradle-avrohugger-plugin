@@ -2,6 +2,21 @@ package com.zlad.gradle.avrohugger
 
 import avrohugger.format.Scavro$
 import avrohugger.types.AvroScalaTypes
+import avrohugger.types.JavaSqlDate$
+import avrohugger.types.JavaSqlTimestamp$
+import avrohugger.types.OptionShapelessCoproduct$
+import avrohugger.types.ScalaADT$
+import avrohugger.types.ScalaArray$
+import avrohugger.types.ScalaCaseClassWithSchema$
+import avrohugger.types.ScalaCaseObjectEnum$
+import avrohugger.types.ScalaDouble$
+import avrohugger.types.ScalaFloat$
+import avrohugger.types.ScalaInt$
+import avrohugger.types.ScalaLong$
+import com.zlad.gradle.avrohugger.types.CustomTypes
+import com.zlad.gradle.avrohugger.types.CustomTypesValues
+import scala.Option
+import scala.math.BigDecimal
 import spock.lang.Specification
 
 
@@ -39,7 +54,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.int() == ScalaLong
+        avroScalaTypes.int() == ScalaLong$.MODULE$
     }
 
     def "should return modified long in avro scala types"() {
@@ -52,33 +67,33 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.long() == ScalaInt
+        avroScalaTypes.long() == ScalaInt$.MODULE$
     }
 
     def "should return modified float in avro scala types"() {
         given:
         final modified = new CustomTypes(
-                floatType: ScalaInt
+                floatType: ScalaDouble
         )
 
         when:
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.float() == ScalaInt
+        avroScalaTypes.float() == ScalaDouble$.MODULE$
     }
 
     def "should return modified double in avro scala types"() {
         given:
         final modified = new CustomTypes(
-                doubleType: ScalaInt
+                doubleType: ScalaFloat
         )
 
         when:
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.double() == ScalaInt
+        avroScalaTypes.double() == ScalaFloat$.MODULE$
     }
 
     def "should return modified record in avro scala types"() {
@@ -91,7 +106,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.record() == ScalaCaseClassWithSchema
+        avroScalaTypes.record() == ScalaCaseClassWithSchema$.MODULE$
     }
 
     def "should return modified enum in avro scala types"() {
@@ -104,7 +119,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.enum() == ScalaCaseObjectEnum
+        avroScalaTypes.enum() == ScalaCaseObjectEnum$.MODULE$
     }
 
     def "should return modified union in avro scala types"() {
@@ -117,7 +132,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.union() == OptionShapelessCoproduct
+        avroScalaTypes.union() == OptionShapelessCoproduct$.MODULE$
     }
 
     def "should return modified array in avro scala types"() {
@@ -130,7 +145,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.array() == ScalaArray
+        avroScalaTypes.array() == ScalaArray$.MODULE$
     }
 
     def "should return modified protocol in avro scala types"() {
@@ -143,7 +158,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.protocol() == ScalaADT
+        avroScalaTypes.protocol() == ScalaADT$.MODULE$
     }
 
     def "should return modified decimal in avro scala types"() {
@@ -156,7 +171,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.decimal() == ScalaBigDecimalWithPrecision
+        avroScalaTypes.decimal() == new avrohugger.types.ScalaBigDecimalWithPrecision(Option.empty())
     }
 
     def "should return modified decimal with rounding mode in avro scala types"() {
@@ -169,7 +184,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.decimal() == ScalaBigDecimal_CEILING
+        avroScalaTypes.decimal() == new avrohugger.types.ScalaBigDecimal(Option.apply( BigDecimal.RoundingMode$.MODULE$.CEILING()))
     }
 
     def "should return modified date in avro scala types"() {
@@ -182,7 +197,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.date() == JavaSqlDate
+        avroScalaTypes.date() == JavaSqlDate$.MODULE$
     }
 
     def "should return modified timestamp millis in avro scala types"() {
@@ -195,7 +210,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         final avroScalaTypes = modified.toAvroScalaTypes()
 
         then:
-        avroScalaTypes.timestampMillis() == JavaSqlTimestamp
+        avroScalaTypes.timestampMillis() == JavaSqlTimestamp$.MODULE$
     }
     
 }

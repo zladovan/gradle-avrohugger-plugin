@@ -19,7 +19,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.4.4'
+    id 'com.zlad.gradle.avrohugger' version '0.5.0'
 }
 ```
 
@@ -29,7 +29,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.4.4'
+    id 'com.zlad.gradle.avrohugger' version '0.5.0'
 }
 
 repositories {
@@ -146,7 +146,7 @@ where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`,
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.17.0'
-        id 'com.zlad.gradle.avrohugger' version '0.4.4'
+        id 'com.zlad.gradle.avrohugger' version '0.5.0'
     }
     
     repositories {
@@ -214,6 +214,45 @@ If you have schema files provided as part of one or more `jar` files you can inc
         }
     }
     ```
+   
+### How to use with Kotlin DSL
+
+See following example of configuration made with Kotlin DSL:
+
+```kotlin
+import com.zlad.gradle.avrohugger.AvrohuggerExtension
+
+plugins {
+    id ("scala") 
+    id ("com.zlad.gradle.avrohugger") version "0.5.0"
+}
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+    implementation ("org.scala-lang:scala-library:2.12.10")
+}
+
+avrohugger {
+    sourceDirectories.from("src-avro")
+
+    destinationDirectory.set(file("src-scala"))
+
+    namespaceMapping.set(mapOf(
+        "example.idl" to "com.zlad"
+    ))
+
+    typeMapping {
+        protocolType = AvrohuggerExtension.ScalaADT
+        enumType = AvrohuggerExtension.ScalaCaseObjectEnum
+    }
+
+    sourceFormat.set(AvrohuggerExtension.Standard)
+}
+
+```
 
 ## Scala 2.10 support
 

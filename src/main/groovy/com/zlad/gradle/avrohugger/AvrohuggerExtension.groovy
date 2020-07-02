@@ -1,5 +1,7 @@
 package com.zlad.gradle.avrohugger
 
+import com.zlad.gradle.avrohugger.types.CustomTypes
+import com.zlad.gradle.avrohugger.types.CustomTypesValues
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection

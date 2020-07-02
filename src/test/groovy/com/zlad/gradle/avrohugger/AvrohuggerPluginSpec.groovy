@@ -1,5 +1,7 @@
 package com.zlad.gradle.avrohugger
 
+import com.zlad.gradle.avrohugger.types.CustomTypes
+import com.zlad.gradle.avrohugger.types.CustomTypesValues
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
@@ -55,7 +57,7 @@ class AvrohuggerPluginSpec extends Specification {
         project.avrohugger.sourceFormat = SourceFormatValues.SpecificRecord
 
         then:
-        project.tasks.generateAvroScala.customTypes.get().enum() == CustomTypesValues.JavaEnum
+        project.tasks.generateAvroScala.customTypes.get().enum() == CustomTypesValues.JavaEnum.toScalaType()
     }
 
     def "should change default array type to scala array when applied with scavro source format"() {
@@ -64,7 +66,7 @@ class AvrohuggerPluginSpec extends Specification {
         project.avrohugger.sourceFormat = SourceFormatValues.Scavro
 
         then:
-        project.tasks.generateAvroScala.customTypes.get().array() == CustomTypesValues.ScalaArray
+        project.tasks.generateAvroScala.customTypes.get().array() == CustomTypesValues.ScalaArray.toScalaType()
     }
 
     def "should add avro scala generate task to project"() {
