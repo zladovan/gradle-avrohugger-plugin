@@ -26,7 +26,8 @@ interface CustomTypesValues {
     BytesType ScalaByteArray = BytesTypes.BYTE_ARRAY
 
     // fixed
-    FixedType ScalaBinary = FixedTypes.BINARY
+    FixedType ScalaCaseClassWrapper = FixedTypes.CASE_CLASS_WRAPPER
+    FixedType ScalaCaseClassWrapperWithSchema = FixedTypes.CASE_CLASS_WRAPPER_WITH_SCHEMA
 
     // record
     RecordType ScalaCaseClass = RecordTypes.CASE_CLASS
