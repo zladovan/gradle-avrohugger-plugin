@@ -3,6 +3,7 @@ package com.zlad.gradle.avrohugger
 import avrohugger.format.Scavro$
 import avrohugger.types.AvroScalaTypes
 import avrohugger.types.JavaSqlDate$
+import avrohugger.types.JavaSqlTime$
 import avrohugger.types.JavaSqlTimestamp$
 import avrohugger.types.OptionShapelessCoproduct$
 import avrohugger.types.ScalaADT$
@@ -211,6 +212,19 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
 
         then:
         avroScalaTypes.timestampMillis() == JavaSqlTimestamp$.MODULE$
+    }
+
+    def "should return modified time millis in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+            timeMillisType: JavaSqlTime
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.timeMillis() == JavaSqlTime$.MODULE$
     }
     
 }

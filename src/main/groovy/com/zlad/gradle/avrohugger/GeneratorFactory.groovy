@@ -17,6 +17,7 @@ class GeneratorFactory implements Serializable {
     Generator create() {
         final format = sourceFormat.toAvrohuggerSourceFormat()
         final namespaces = ScalaConversions.convert(customNamespaces)
+        final targetScalaPartialVersion = null
         logger.info("""
             Creating avrohugger generator
                 - format: $format
@@ -25,11 +26,12 @@ class GeneratorFactory implements Serializable {
                 - restricted: $restrictedFieldNumber
         """.stripIndent())
         new Generator(
-                format, 
+                format,
                 Some.apply(types),
                 namespaces,
                 restrictedFieldNumber,
-                Thread.currentThread().contextClassLoader
+                Thread.currentThread().contextClassLoader,
+                targetScalaPartialVersion
         )
     }
 }
