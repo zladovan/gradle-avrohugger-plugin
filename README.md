@@ -1,6 +1,6 @@
 # gradle-avrohugger-plugin
 
-[![Build Status](https://travis-ci.org/zladovan/gradle-avrohugger-plugin.svg?branch=master)](https://travis-ci.org/zladovan/gradle-avrohugger-plugin)
+[![Build Status](https://app.travis-ci.com/zladovan/gradle-avrohugger-plugin.svg?branch=master)](https://app.travis-ci.com/github/zladovan/gradle-avrohugger-plugin)
 [![Build Status](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/zlad/gradle/avrohugger/com.zlad.gradle.avrohugger.gradle.plugin/maven-metadata.xml.svg?label=gradle%20plugin%20portal)](https://plugins.gradle.org/plugin/com.zlad.gradle.avrohugger)
 
 
@@ -19,7 +19,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.5.0'
+    id 'com.zlad.gradle.avrohugger' version '0.7.0'
 }
 ```
 
@@ -29,7 +29,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.5.0'
+    id 'com.zlad.gradle.avrohugger' version '0.7.0'
 }
 
 repositories {
@@ -146,7 +146,7 @@ where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`,
     plugins {
         id 'scala'
         id 'com.commercehub.gradle.plugin.avro' version '0.17.0'
-        id 'com.zlad.gradle.avrohugger' version '0.5.0'
+        id 'com.zlad.gradle.avrohugger' version '0.7.0'
     }
     
     repositories {
@@ -224,7 +224,7 @@ import com.zlad.gradle.avrohugger.AvrohuggerExtension
 
 plugins {
     id ("scala") 
-    id ("com.zlad.gradle.avrohugger") version "0.5.0"
+    id ("com.zlad.gradle.avrohugger") version "0.7.0"
 }
 
 repositories {
@@ -278,3 +278,4 @@ Plugin was inspired by it's sbt version [sbt-avrohugger](https://github.com/juli
 Thanks to following people for contribution:
 
  - [Andre White](https://github.com/adarro)
+ - [Marcin Kuthan](https://github.com/mkuthan)

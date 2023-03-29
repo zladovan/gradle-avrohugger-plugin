@@ -7,62 +7,73 @@ import spock.lang.Specification
 import java.util.concurrent.Callable
 
 
-class ScalaVersionBelow2_11Spec extends Specification {
+class ScalaVersionSpec extends Specification {
 
     Project project = ProjectBuilder.builder().build()
 
-    Callable<Boolean> callable = new ScalaVersionBelow2_11(project)
+    Callable<String> callable = new ScalaVersion(project)
 
-    def "should return false by default if scala version is not known"() {
+    def "should return 2.11 by default if scala version is not known"() {
         when:
-        final isBelow2_11 = callable.call()
+        final version = callable.call()
 
         then:
-        ! isBelow2_11
+        version == "2.11"
     }
 
-    def "should return false for first scala 2.11 version"() {
+    def "should return 2.11 for first scala 2.11 version"() {
         given:
         projectWithScalaLibrary('2.11.0-M1')
 
         when:
-        final isBelow2_11 = callable.call()
+        final version = callable.call()
 
         then:
-        ! isBelow2_11
+        version == "2.11"
     }
 
-    def "should return true for last scala 2.10 version"() {
+    def "should return 2.10 for last scala 2.10 version"() {
         given:
         projectWithScalaLibrary('2.10.7')
 
         when:
-        final isBelow2_11 = callable.call()
+        final version = callable.call()
 
         then:
-        isBelow2_11
+        version == "2.10"
     }
 
-    def "should resolve version above 2.11 when used with gradle-scala-multiversion-plugin"() {
+    def "should resolve version 2.12 when used with gradle-scala-multiversion-plugin"() {
         given:
         projectWithScalaMultiversionPlugin('2.12.11')
 
         when:
-        final isBelow2_11 = callable.call()
+        final version = callable.call()
 
         then:
-        ! isBelow2_11
+        version == "2.12"
     }
 
-    def "should resolve version below 2.11 when used with gradle-scala-multiversion-plugin"() {
+    def "should resolve version 2.10 when used with gradle-scala-multiversion-plugin"() {
         given:
         projectWithScalaMultiversionPlugin('2.10.7')
 
         when:
-        final isBelow2_11 = callable.call()
+        final version = callable.call()
 
         then:
-        isBelow2_11
+        version == "2.10"
+    }
+
+    def "should return 2.11 as fallback if malformed version is found"() {
+        given:
+        projectWithScalaMultiversionPlugin('xxx')
+
+        when:
+        final version = callable.call()
+
+        then:
+        version == "2.11"
     }
 
     /*
@@ -77,8 +88,8 @@ class ScalaVersionBelow2_11Spec extends Specification {
     // with this plugin scala library use placeholder `%scalaVersion%` instead of version
     // and version can be found in project property `scalaVersion`
     private  void projectWithScalaMultiversionPlugin(String version) {
-        projectWithScalaLibrary("%scalaVersion%")
         project.extensions.extraProperties.scalaVersion = version
+        projectWithScalaLibrary("%scalaVersion%")
     }
 
     private static String scalaLibrary(String version) {

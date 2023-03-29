@@ -37,7 +37,7 @@ class GenerateScalaTask extends SourceTask {
     final Property<ScalaSourceFormat> sourceFormat =  project.objects.property(ScalaSourceFormat)
 
     @Input
-    final Property<Boolean> restrictedFieldNumber =  project.objects.property(Boolean)
+    final Property<String> targetScalaPartialVersion =  project.objects.property(String)
 
     @Inject
     GenerateScalaTask(WorkerExecutor workerExecutor) {
@@ -63,7 +63,7 @@ class GenerateScalaTask extends SourceTask {
             sourceFormat: sourceFormat.get(),
             types: customTypes.get(),
             customNamespaces: customNamespaces.get(),
-            restrictedFieldNumber: restrictedFieldNumber.get()
+            targetScalaPartialVersion: targetScalaPartialVersion.get()
         )
     }
 
