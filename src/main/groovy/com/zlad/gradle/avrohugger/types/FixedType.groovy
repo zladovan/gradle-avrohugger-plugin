@@ -1,14 +1,16 @@
 package com.zlad.gradle.avrohugger.types
 
 import avrohugger.types.AvroScalaFixedType
-import avrohugger.types.ScalaBinary$
+import avrohugger.types.ScalaCaseClassWrapper$
+import avrohugger.types.ScalaCaseClassWrapperWithSchema$
 
 interface FixedType {
     AvroScalaFixedType toScalaType()
 }
 
 enum FixedTypes implements FixedType {
-    BINARY(ScalaBinary$.MODULE$)
+    CASE_CLASS_WRAPPER(ScalaCaseClassWrapper$.MODULE$),
+    CASE_CLASS_WRAPPER_WITH_SCHEMA(ScalaCaseClassWrapperWithSchema$.MODULE$)
 
     private AvroScalaFixedType scalaType
 

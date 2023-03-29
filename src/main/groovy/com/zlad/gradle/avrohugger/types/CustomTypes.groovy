@@ -32,6 +32,7 @@ class CustomTypes {
     DecimalType decimalType
     DateType dateType
     TimestampType timestampMillisType
+    TimeType timeMillisType
     UuidType uuidType
 
     AvroScalaTypes toAvroScalaTypes(AvroScalaTypes defaults = AvroScalaTypes.defaults()) {
@@ -54,6 +55,7 @@ class CustomTypes {
             decimalType?.toScalaType()         ?: defaults.decimal(),
             dateType?.toScalaType()            ?: defaults.date(),
             timestampMillisType?.toScalaType() ?: defaults.timestampMillis(),
+            timeMillisType?.toScalaType()      ?: defaults.timeMillis(),
             uuidType?.toScalaType()            ?: defaults.uuid()
         )
     }

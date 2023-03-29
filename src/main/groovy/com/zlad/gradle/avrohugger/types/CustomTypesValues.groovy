@@ -26,7 +26,8 @@ interface CustomTypesValues {
     BytesType ScalaByteArray = BytesTypes.BYTE_ARRAY
 
     // fixed
-    FixedType ScalaBinary = FixedTypes.BINARY
+    FixedType ScalaCaseClassWrapper = FixedTypes.CASE_CLASS_WRAPPER
+    FixedType ScalaCaseClassWrapperWithSchema = FixedTypes.CASE_CLASS_WRAPPER_WITH_SCHEMA
 
     // record
     RecordType ScalaCaseClass = RecordTypes.CASE_CLASS
@@ -83,6 +84,10 @@ interface CustomTypesValues {
     // timestamp millis
     TimestampType JavaTimeInstant = TimestampTypes.JAVA_TIME_INSTANT
     TimestampType JavaSqlTimestamp = TimestampTypes.JAVA_SQL_INSTANT
+
+    // time millis
+    TimeType JavaTimeLocalTime = TimeTypes.JAVA_TIME_LOCAL_TIME
+    TimeType JavaSqlTime = TimeTypes.JAVA_SQL_TIME
 
     // uuid
     UuidType JavaUuid = UuidTypes.JAVA_UUID
