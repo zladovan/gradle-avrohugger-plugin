@@ -55,7 +55,7 @@ class GenerateScalaTask extends SourceTask {
             "Avro datafile": fileSource.getAvroFiles(),
             "Avro protocol": fileSource.getAvprFiles()
         ]
-        submitWork(createGeneratorFactory(), destinationDir.get().asFile.getAbsolutePath(), files)
+        submitWork(createGeneratorFactory(), destinationDir.get().asFile.getAbsolutePath(), files, sourceFormat.get())
     }
 
     private GeneratorFactory createGeneratorFactory() {
@@ -70,12 +70,14 @@ class GenerateScalaTask extends SourceTask {
     // when SpecificRecord or Scavro format used there is need to run generating in separate process
     // because avrohugger is creating (temp) directory `target` which is not deleted while gradle daemon is alive
     // when run as separate process `target` is created under `~/.gradle/workers/` and it's minimally not polluting users project
-    private def submitWork = { GeneratorFactory generatorFactory, String destination, Map<String, Collection<File>> inputFiles ->
+    private def submitWork = { GeneratorFactory generatorFactory, String destination, Map<String, Collection<File>> inputFiles, ScalaSourceFormat fmt ->
         if ( ! inputFiles.isEmpty()) {
-            workerExecutor.submit(Generate) { config ->
-                config.setIsolationMode(sourceFormat.get() == ScalaSourceFormat.Standard ? IsolationMode.NONE : IsolationMode.PROCESS)
-                config.params(generatorFactory, destination, inputFiles)
-            }
+            def queue = fmt == ScalaSourceFormat.Standard ? workerExecutor.noIsolation(): workerExecutor.processIsolation()
+            queue.submit(Generate, { parameters ->
+                parameters.setGeneratorFactory(generatorFactory)
+                parameters.setDestinationDir(destination)
+                parameters.setInputFiles(inputFiles)
+            })
         }
     }
 

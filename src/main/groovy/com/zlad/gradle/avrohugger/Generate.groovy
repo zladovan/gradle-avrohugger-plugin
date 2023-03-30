@@ -1,5 +1,7 @@
 package com.zlad.gradle.avrohugger
 
+import org.gradle.workers.WorkAction
+import org.gradle.workers.WorkParameters
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -10,36 +12,29 @@ import javax.inject.Inject
  *
  * It's implemented as runnable to be able to call it in separate process.
  */
-class Generate implements Runnable {
+abstract class Generate implements WorkAction<GenerateParameters> {
 
-    private static final Logger logger = LoggerFactory.getLogger(Generate)
-
-    private final GeneratorFactory generatorFactory
-    private final String destinationDir
-    private final Map<String, Collection<File>> inputFiles
-
-
-    /**
-     * @param generatorFactory
-     * @param destinationDir path to directory where source files will be created
-     * @param inputFiles labeled input files collections, generation will be invoked per collection and label is used for logging
-     */
-    @Inject
-    Generate(GeneratorFactory generatorFactory, String destinationDir, Map<String, Collection<File>> inputFiles) {
-        this.generatorFactory = generatorFactory
-        this.destinationDir = destinationDir
-        this.inputFiles = inputFiles
-    }
+    protected static final Logger logger = LoggerFactory.getLogger(Generate)
 
     @Override
-    void run() {
-        final generator = generatorFactory.create()
-        inputFiles.forEach { label, files ->
+    void execute() {
+        final generator = getParameters().getGeneratorFactory().create()
+        getParameters().getInputFiles().forEach { label, files ->
             files.forEach {
+                def destinationDir = getParameters().getDestinationDir()
                 logger.info("Compiling $label $it to $destinationDir")
                 generator.fileToFile(it, destinationDir)
             }
         }
     }
 
+}
+
+interface GenerateParameters extends WorkParameters {
+    GeneratorFactory getGeneratorFactory()
+    void setGeneratorFactory(GeneratorFactory generatorFactory)
+    String getDestinationDir()
+    void setDestinationDir(String destinationDir)
+    Map<String, Collection<File>> getInputFiles()
+    void setInputFiles(Map<String, Collection<File>> inputFiles)
 }
