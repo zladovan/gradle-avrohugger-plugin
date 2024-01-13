@@ -31,32 +31,40 @@ class CustomTypes {
     ProtocolType protocolType
     DecimalType decimalType
     DateType dateType
-    TimestampType timestampMillisType
-    TimeType timeMillisType
+    TimestampMillisType timestampMillisType
+    TimeMillisType timeMillisType
+    TimeType timeMicrosType
+    TimestampType timestampMicrosType
+    LocalTimestampType localTimestampMillisType
+    LocalTimestampType localTimestampMicrosType
     UuidType uuidType
 
     AvroScalaTypes toAvroScalaTypes(AvroScalaTypes defaults = AvroScalaTypes.defaults()) {
         new AvroScalaTypes(
-            intType?.toScalaType()             ?: defaults.int(),
-            longType?.toScalaType()            ?: defaults.long(),
-            floatType?.toScalaType()           ?: defaults.float(),
-            doubleType?.toScalaType()          ?: defaults.double(),
-            booleanType?.toScalaType()         ?: defaults.boolean(),
-            stringType?.toScalaType()          ?: defaults.string(),
-            nullType?.toScalaType()            ?: defaults.null(),
-            bytesType?.toScalaType()           ?: defaults.bytes(),
-            fixedType?.toScalaType()           ?: defaults.fixed(),
-            recordType?.toScalaType()          ?: defaults.record(),
-            enumType?.toScalaType()            ?: defaults.enum(),
-            unionType?.toScalaType()           ?: defaults.union(),
-            arrayType?.toScalaType()           ?: defaults.array(),
-            mapType?.toScalaType()             ?: defaults.map(),
-            protocolType?.toScalaType()        ?: defaults.protocol(),
-            decimalType?.toScalaType()         ?: defaults.decimal(),
-            dateType?.toScalaType()            ?: defaults.date(),
-            timestampMillisType?.toScalaType() ?: defaults.timestampMillis(),
-            timeMillisType?.toScalaType()      ?: defaults.timeMillis(),
-            uuidType?.toScalaType()            ?: defaults.uuid()
+                intType?.toScalaType()                     ?: defaults.int(),
+                longType?.toScalaType()                    ?: defaults.long(),
+                floatType?.toScalaType()                   ?: defaults.float(),
+                doubleType?.toScalaType()                  ?: defaults.double(),
+                booleanType?.toScalaType()                 ?: defaults.boolean(),
+                stringType?.toScalaType()                  ?: defaults.string(),
+                nullType?.toScalaType()                    ?: defaults.null(),
+                bytesType?.toScalaType()                   ?: defaults.bytes(),
+                fixedType?.toScalaType()                   ?: defaults.fixed(),
+                recordType?.toScalaType()                  ?: defaults.record(),
+                enumType?.toScalaType()                    ?: defaults.enum(),
+                unionType?.toScalaType()                   ?: defaults.union(),
+                arrayType?.toScalaType()                   ?: defaults.array(),
+                mapType?.toScalaType()                     ?: defaults.map(),
+                protocolType?.toScalaType()                ?: defaults.protocol(),
+                decimalType?.toScalaType()                 ?: defaults.decimal(),
+                dateType?.toScalaType()                    ?: defaults.date(),
+                timestampMillisType?.toScalaType()         ?: defaults.timestampMillis(),
+                timeMillisType?.toScalaType()              ?: defaults.timeMillis(),
+                timeMicrosType?.toScalaType()              ?: defaults.timeMicros(),
+                timestampMicrosType?.toScalaType()         ?: defaults.timestampMicros(),
+                localTimestampMillisType?.toScalaType()    ?: defaults.localTimestampMillis(),
+                localTimestampMicrosType?.toScalaType()    ?: defaults.localTimestampMicros(),
+                uuidType?.toScalaType()                    ?: defaults.uuid()
         )
     }
 }

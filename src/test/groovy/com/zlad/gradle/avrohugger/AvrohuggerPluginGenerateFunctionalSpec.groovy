@@ -79,18 +79,6 @@ class AvrohuggerPluginGenerateFunctionalSpec extends Specification {
         generatedScalaFile().text.contains('org.apache.avro.specific.SpecificRecordBase')
     }
 
-    def "should generate scavro scala classes"() {
-        given:
-        avscInputWithFormat('Scavro')
-
-        when:
-        final result = project.generateAvroScala()
-
-        then:
-        generateAvroScalaTaskWasSuccessful(result)
-        generatedScavroFile().exists()
-    }
-
     def "should generate classes from schema in archive"() {
         given:
         zipArchiveInput()

@@ -1,10 +1,12 @@
 package com.zlad.gradle.avrohugger
 
-import avrohugger.format.Scavro$
 import avrohugger.types.AvroScalaTypes
 import avrohugger.types.JavaSqlDate$
 import avrohugger.types.JavaSqlTime$
 import avrohugger.types.JavaSqlTimestamp$
+import avrohugger.types.JavaTimeLocalDateTime$
+import avrohugger.types.JavaTimeLocalTime$
+import avrohugger.types.JavaTimeZonedDateTime$
 import avrohugger.types.OptionShapelessCoproduct$
 import avrohugger.types.ScalaADT$
 import avrohugger.types.ScalaArray$
@@ -32,17 +34,6 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         
         then:
         avroScalaTypes == AvroScalaTypes.defaults()
-    }
-
-    def "should return default provided scala types"() {
-        given:
-        final defaults = new CustomTypes()
-
-        when:
-        final avroScalaTypes = defaults.toAvroScalaTypes(Scavro$.MODULE$.defaultTypes())
-
-        then:
-        avroScalaTypes == Scavro$.MODULE$.defaultTypes()
     }
 
     def "should return modified int in avro scala types"() {
@@ -204,7 +195,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
     def "should return modified timestamp millis in avro scala types"() {
         given:
         final modified = new CustomTypes(
-                timestampMillisType: JavaSqlTimestamp
+                timestampMillisType: JavaSqlInstant
         )
 
         when:
@@ -217,7 +208,7 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
     def "should return modified time millis in avro scala types"() {
         given:
         final modified = new CustomTypes(
-            timeMillisType: JavaSqlTime
+            timeMillisType: JavaSqlTimeMillis
         )
 
         when:
@@ -226,5 +217,57 @@ class CustomTypesSpec extends Specification implements CustomTypesValues {
         then:
         avroScalaTypes.timeMillis() == JavaSqlTime$.MODULE$
     }
-    
+
+    def "should return modified time micros in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                timeMicrosType: JavaTimeLocalTime
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.timeMicros() == JavaTimeLocalTime$.MODULE$
+    }
+
+    def "should return modified timestamp micros in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                timestampMicrosType: JavaTimeZonedDateTime
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.timestampMicros() == JavaTimeZonedDateTime$.MODULE$
+    }
+
+    def "should return modified local timestamp millis in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                localTimestampMillisType: JavaLocalDateTime
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.localTimestampMillis() == JavaTimeLocalDateTime$.MODULE$
+    }
+
+    def "should return modified local timestamp micros in avro scala types"() {
+        given:
+        final modified = new CustomTypes(
+                localTimestampMicrosType: JavaLocalDateTime
+        )
+
+        when:
+        final avroScalaTypes = modified.toAvroScalaTypes()
+
+        then:
+        avroScalaTypes.localTimestampMicros() == JavaTimeLocalDateTime$.MODULE$
+    }
+
 }
