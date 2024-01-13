@@ -38,7 +38,7 @@ class AvrohuggerPluginBuildFunctionalSpec extends Specification {
             outputDirectories: ['src-scala']
     ))
 
-    def "should generate and compile scala classes during build with custom config"() {
+    def "should generate and compile large scala classes with specific record during build with custom config"() {
         given:
         projectLarge.inputFile('input.avsc') << Resources.read('large.avsc')
 
