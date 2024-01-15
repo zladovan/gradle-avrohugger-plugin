@@ -1,26 +1,23 @@
 package com.zlad.gradle.avrohugger.types
 
-import avrohugger.types.AvroScalaTimestampMillisType
-import avrohugger.types.JavaSqlTimestamp$
-import avrohugger.types.JavaTimeInstant$
-
+import avrohugger.types.AvroScalaTimestampType
+import avrohugger.types.JavaTimeZonedDateTime$
 
 interface TimestampType {
-    AvroScalaTimestampMillisType toScalaType()
+  AvroScalaTimestampType toScalaType()
 }
 
 enum TimestampTypes implements TimestampType {
-    JAVA_TIME_INSTANT(JavaTimeInstant$.MODULE$),
-    JAVA_SQL_INSTANT(JavaSqlTimestamp$.MODULE$)
+  JAVA_TIME_ZONED_DATE_TIME(JavaTimeZonedDateTime$.MODULE$)
 
-    private AvroScalaTimestampMillisType scalaType
+  private AvroScalaTimestampType scalaType
 
-    TimestampTypes(AvroScalaTimestampMillisType scalaType) {
-        this.scalaType = scalaType
-    }
+  TimestampTypes(AvroScalaTimestampType scalaType) {
+    this.scalaType = scalaType
+  }
 
-    @Override
-    AvroScalaTimestampMillisType toScalaType() {
-        return scalaType
-    }
+  @Override
+  AvroScalaTimestampType toScalaType() {
+    return scalaType
+  }
 }

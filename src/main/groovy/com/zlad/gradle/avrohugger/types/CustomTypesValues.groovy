@@ -82,12 +82,21 @@ interface CustomTypesValues {
     DateType JavaSqlDate = DateTypes.JAVA_SQL_DATE
 
     // timestamp millis
-    TimestampType JavaTimeInstant = TimestampTypes.JAVA_TIME_INSTANT
-    TimestampType JavaSqlTimestamp = TimestampTypes.JAVA_SQL_INSTANT
+    TimestampMillisType JavaTimeInstant = TimestampMillisTypes.JAVA_TIME_INSTANT
+    TimestampMillisType JavaSqlInstant = TimestampMillisTypes.JAVA_SQL_INSTANT
 
     // time millis
+    TimeMillisType JavaTimeMillisLocalTime = TimeMillisTypes.JAVA_TIME_LOCAL_TIME
+    TimeMillisType JavaSqlTimeMillis = TimeMillisTypes.JAVA_SQL_TIME
+
+    // time micros
     TimeType JavaTimeLocalTime = TimeTypes.JAVA_TIME_LOCAL_TIME
-    TimeType JavaSqlTime = TimeTypes.JAVA_SQL_TIME
+
+    // timestamp micros
+    TimestampType JavaTimeZonedDateTime = TimestampTypes.JAVA_TIME_ZONED_DATE_TIME
+
+    // local timestamp
+    LocalTimestampType JavaLocalDateTime = LocalTimestampTypes.JAVA_LOCAL_DATE_TIME
 
     // uuid
     UuidType JavaUuid = UuidTypes.JAVA_UUID

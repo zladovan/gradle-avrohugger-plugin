@@ -60,15 +60,6 @@ class AvrohuggerPluginSpec extends Specification {
         project.tasks.generateAvroScala.customTypes.get().enum() == CustomTypesValues.JavaEnum.toScalaType()
     }
 
-    def "should change default array type to scala array when applied with scavro source format"() {
-        when:
-        project.pluginManager.apply AvrohuggerPlugin
-        project.avrohugger.sourceFormat = SourceFormatValues.Scavro
-
-        then:
-        project.tasks.generateAvroScala.customTypes.get().array() == CustomTypesValues.ScalaArray.toScalaType()
-    }
-
     def "should add avro scala generate task to project"() {
         when:
         project.pluginManager.apply AvrohuggerPlugin

@@ -1,25 +1,23 @@
 package com.zlad.gradle.avrohugger.types
 
-import avrohugger.types.AvroScalaTimeMillisType
-import avrohugger.types.JavaSqlTime$
+import avrohugger.types.AvroScalaTimeType
 import avrohugger.types.JavaTimeLocalTime$
 
 interface TimeType {
-  AvroScalaTimeMillisType toScalaType()
+  AvroScalaTimeType toScalaType()
 }
 
 enum TimeTypes implements TimeType {
-  JAVA_TIME_LOCAL_TIME(JavaTimeLocalTime$.MODULE$),
-  JAVA_SQL_TIME(JavaSqlTime$.MODULE$)
+  JAVA_TIME_LOCAL_TIME(JavaTimeLocalTime$.MODULE$)
 
-  private AvroScalaTimeMillisType scalaType
+  private AvroScalaTimeType scalaType
 
-  TimeTypes(AvroScalaTimeMillisType scalaType) {
+  TimeTypes(AvroScalaTimeType scalaType) {
     this.scalaType = scalaType
   }
 
   @Override
-  AvroScalaTimeMillisType toScalaType() {
+  AvroScalaTimeType toScalaType() {
     return scalaType
   }
 }
