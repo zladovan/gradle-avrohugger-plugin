@@ -19,7 +19,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.7.0'
+    id 'com.zlad.gradle.avrohugger' version '0.8.0'
 }
 ```
 
@@ -29,7 +29,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.7.0'
+    id 'com.zlad.gradle.avrohugger' version '0.8.0'
 }
 
 repositories {
@@ -166,7 +166,7 @@ import com.zlad.gradle.avrohugger.AvrohuggerExtension
 
 plugins {
     id ("scala") 
-    id ("com.zlad.gradle.avrohugger") version "0.7.0"
+    id ("com.zlad.gradle.avrohugger") version "0.8.0"
 }
 
 repositories {
@@ -217,7 +217,4 @@ Core generation logic is implemented by [Julian Peeters](https://github.com/juli
 in scala library called [avrohugger](https://github.com/julianpeeters/avrohugger).
 Plugin was inspired by it's sbt version [sbt-avrohugger](https://github.com/julianpeeters/sbt-avrohugger). 
 
-Thanks to following people for contribution:
-
- - [Andre White](https://github.com/adarro)
- - [Marcin Kuthan](https://github.com/mkuthan)
+Thanks to all [contributors](https://github.com/zladovan/gradle-avrohugger-plugin/graphs/contributors).
