@@ -106,7 +106,7 @@ where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`,
    ```groovy
     dependencies {
        // ... other dependencies here 
-       compile 'org.apache.avro:avro:1.8.2'
+       implementation 'org.apache.avro:avro:1.8.2'
     }
     ```
    
