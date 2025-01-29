@@ -1,7 +1,6 @@
 plugins {
     id 'groovy'
-    id 'java-gradle-plugin'
-    id 'com.gradle.plugin-publish' version '0.11.0'
+    id("com.gradle.plugin-publish") version "1.2.1"
     id 'com.palantir.git-version' version '3.0.0'
 }
 
@@ -14,29 +13,24 @@ group = 'com.zlad.gradle'
 version = resolveVersion()
 
 dependencies {
-    implementation "com.julianpeeters:avrohugger-core_$scalaMajorVersion:$avrohuggerVersion"
-    implementation "com.julianpeeters:avrohugger-filesorter_$scalaMajorVersion:$avrohuggerVersion"
+    implementation "com.julianpeeters:avrohugger-core_$scalaBinaryVersion:$avrohuggerVersion"
+    implementation "com.julianpeeters:avrohugger-filesorter_$scalaBinaryVersion:$avrohuggerVersion"
 
-    testImplementation("org.spockframework:spock-core:$spockVersion") {
-        exclude group: 'org.codehaus.groovy'
-    }
+    testImplementation("org.spockframework:spock-junit4:$spockVersion")
 }
 
 gradlePlugin {
+    website = 'https://github.com/zladovan/gradle-avrohugger-plugin'
+    vcsUrl = 'https://github.com/zladovan/gradle-avrohugger-plugin.git'
     plugins {
-        avrohuggerPlugin {
+        create("avrohuggerPlugin") {
             id = 'com.zlad.gradle.avrohugger'
             implementationClass = 'com.zlad.gradle.avrohugger.AvrohuggerPlugin'
             displayName = 'Gradle avrohugger plugin'
             description = 'Plugin for generating scala case classes from apache avro schemas, datafiles and protocols.'
+            tags.set(['scala', 'avro'])
         }
     }
-}
-
-pluginBundle {
-    website = 'https://github.com/zladovan/gradle-avrohugger-plugin'
-    vcsUrl = 'https://github.com/zladovan/gradle-avrohugger-plugin.git'
-    tags = ['scala', 'avro']
 }
 
 def resolveVersion() {

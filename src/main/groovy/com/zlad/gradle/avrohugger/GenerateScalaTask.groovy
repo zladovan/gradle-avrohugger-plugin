@@ -18,32 +18,27 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 @CacheableTask
-class GenerateScalaTask extends SourceTask {
+abstract class GenerateScalaTask extends SourceTask {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateScalaTask)
 
-    private final WorkerExecutor workerExecutor
-
     @OutputDirectory
-    final DirectoryProperty destinationDir = project.objects.directoryProperty()
+    abstract DirectoryProperty getDestinationDir();
 
     @Input
-    final Property<AvroScalaTypes> customTypes =  project.objects.property(AvroScalaTypes)
+    abstract Property<AvroScalaTypes> getCustomTypes();
 
     @Input
-    final MapProperty<String, String> customNamespaces = project.objects.mapProperty(String,String)
+    abstract MapProperty<String, String> getCustomNamespaces();
 
     @Input
-    final Property<ScalaSourceFormat> sourceFormat =  project.objects.property(ScalaSourceFormat)
+    abstract Property<ScalaSourceFormat> getSourceFormat()
 
     @Input
-    final Property<String> targetScalaPartialVersion =  project.objects.property(String)
+    abstract public Property<String> getTargetScalaPartialVersion();
 
     @Inject
-    GenerateScalaTask(WorkerExecutor workerExecutor) {
-        super()
-        this.workerExecutor = workerExecutor
-    }
+    abstract protected WorkerExecutor getWorkerExecutor();
 
     @TaskAction
     void generate() {
@@ -80,10 +75,4 @@ class GenerateScalaTask extends SourceTask {
             })
         }
     }
-
-    @Internal("needed for access from submitWork")
-    WorkerExecutor getWorkerExecutor() {
-        workerExecutor
-    }
-
 }
