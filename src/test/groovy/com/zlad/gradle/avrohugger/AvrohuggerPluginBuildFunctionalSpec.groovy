@@ -5,7 +5,6 @@ import com.zlad.gradle.avrohugger.common.TestProject
 import com.zlad.gradle.avrohugger.common.TestProjectConfig
 import org.gradle.testkit.runner.BuildResult
 import org.junit.Rule
-import org.junit.rules.ExternalResource
 import spock.lang.Specification
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS

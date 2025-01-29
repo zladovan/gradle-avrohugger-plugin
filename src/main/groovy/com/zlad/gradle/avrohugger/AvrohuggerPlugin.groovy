@@ -67,6 +67,7 @@ class AvrohuggerPlugin implements Plugin<Project> {
             project.sourceSets.matching { it.name == 'main' }.all {
                 if (it.hasProperty('scala')) {
                     it.scala.srcDir extension.destinationDirectory
+                    project.tasks.findByName("sourcesJar")?.dependsOn(TASK_GENERATE_NAME)
                 }
             }
         }
