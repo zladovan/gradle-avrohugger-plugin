@@ -33,7 +33,7 @@ gradlePlugin {
     website = 'https://github.com/zladovan/gradle-avrohugger-plugin'
     vcsUrl = 'https://github.com/zladovan/gradle-avrohugger-plugin.git'
     plugins {
-        create("avrohuggerPlugin") {
+        avrohuggerPlugin {
             id = 'com.zlad.gradle.avrohugger'
             implementationClass = 'com.zlad.gradle.avrohugger.AvrohuggerPlugin'
             displayName = 'Gradle avrohugger plugin'
