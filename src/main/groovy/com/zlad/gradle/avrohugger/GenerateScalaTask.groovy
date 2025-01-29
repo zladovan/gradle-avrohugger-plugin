@@ -18,40 +18,35 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 @CacheableTask
-class GenerateScalaTask extends SourceTask {
+abstract class GenerateScalaTask extends SourceTask {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateScalaTask)
 
-    private final WorkerExecutor workerExecutor
-
     @OutputDirectory
-    final DirectoryProperty destinationDir = project.objects.directoryProperty()
+    abstract DirectoryProperty getDestinationDir();
 
     @Input
-    final Property<AvroScalaTypes> customTypes =  project.objects.property(AvroScalaTypes)
+    abstract Property<AvroScalaTypes> getCustomTypes();
 
     @Input
-    final MapProperty<String, String> customNamespaces = project.objects.mapProperty(String,String)
+    abstract MapProperty<String, String> getCustomNamespaces();
 
     @Input
-    final Property<ScalaSourceFormat> sourceFormat =  project.objects.property(ScalaSourceFormat)
+    abstract Property<ScalaSourceFormat> getSourceFormat()
 
     @Input
-    final Property<String> targetScalaPartialVersion =  project.objects.property(String)
+    abstract public Property<String> getTargetScalaPartialVersion();
 
     @Inject
-    GenerateScalaTask(WorkerExecutor workerExecutor) {
-        super()
-        this.workerExecutor = workerExecutor
-    }
+    abstract protected WorkerExecutor getWorkerExecutor();
 
     @TaskAction
     void generate() {
         logger.info("Starting avro scala classes generation.")
         final fileSource = new FileSource(source)
         final files = [
-            "Avro schema":   fileSource.getAvscFiles(),
-            "Avro IDL":      fileSource.getAvdlFiles(),
+            "Avro schema"  : fileSource.getAvscFiles(),
+            "Avro IDL"     : fileSource.getAvdlFiles(),
             "Avro datafile": fileSource.getAvroFiles(),
             "Avro protocol": fileSource.getAvprFiles()
         ]
@@ -70,9 +65,9 @@ class GenerateScalaTask extends SourceTask {
     // when SpecificRecord format used there is need to run generating in separate process
     // because avrohugger is creating (temp) directory `target` which is not deleted while gradle daemon is alive
     // when run as separate process `target` is created under `~/.gradle/workers/` and it's minimally not polluting users project
-    private def submitWork = { GeneratorFactory generatorFactory, String destination, Map<String, Collection<File>> inputFiles, ScalaSourceFormat fmt ->
-        if ( ! inputFiles.isEmpty()) {
-            def queue = fmt == ScalaSourceFormat.Standard ? workerExecutor.noIsolation(): workerExecutor.processIsolation()
+    private def submitWork(GeneratorFactory generatorFactory, String destination, Map<String, Collection<File>> inputFiles, ScalaSourceFormat fmt) {
+        if (!inputFiles.isEmpty()) {
+            def queue = fmt == ScalaSourceFormat.Standard ? workerExecutor.noIsolation() : workerExecutor.processIsolation()
             queue.submit(Generate, { parameters ->
                 parameters.setGeneratorFactory(generatorFactory)
                 parameters.setDestinationDir(destination)
@@ -80,10 +75,4 @@ class GenerateScalaTask extends SourceTask {
             })
         }
     }
-
-    @Internal("needed for access from submitWork")
-    WorkerExecutor getWorkerExecutor() {
-        workerExecutor
-    }
-
 }
