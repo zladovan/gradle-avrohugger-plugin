@@ -19,6 +19,12 @@ dependencies {
     testImplementation("org.spockframework:spock-junit4:$spockVersion")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
 test {
     useJUnitPlatform()
 }
