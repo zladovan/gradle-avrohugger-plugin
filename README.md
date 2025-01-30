@@ -11,7 +11,7 @@ It is based on [avrohugger](https://github.com/julianpeeters/avrohugger) scala l
 
 Plugin requires **Gradle** in version **7.0** or higher. 
 
->Use plugin in version `0.8.1` for compatibility down to **Gradle 5.1**
+>Use plugin in version `0.8.1` for compatibility down to **Gradle 5.1**  
 >Use plugin in version `0.2.5` for compatibility down to **Gradle 4.3**
 
 ## Usage
