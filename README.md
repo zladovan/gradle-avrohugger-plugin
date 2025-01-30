@@ -9,8 +9,9 @@ It is based on [avrohugger](https://github.com/julianpeeters/avrohugger) scala l
 
 ## Requirements
 
-Plugin requires **Gradle** in version **5.1** or higher. 
+Plugin requires **Gradle** in version **7.0** or higher. 
 
+>Use plugin in version `0.8.1` for compatibility down to **Gradle 5.1**
 >Use plugin in version `0.2.5` for compatibility down to **Gradle 4.3**
 
 ## Usage
@@ -19,7 +20,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.8.0'
+    id 'com.zlad.gradle.avrohugger' version '0.9.0'
 }
 ```
 
@@ -29,7 +30,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.8.0'
+    id 'com.zlad.gradle.avrohugger' version '0.9.0'
 }
 
 repositories {
@@ -166,7 +167,7 @@ import com.zlad.gradle.avrohugger.AvrohuggerExtension
 
 plugins {
     id ("scala") 
-    id ("com.zlad.gradle.avrohugger") version "0.8.0"
+    id ("com.zlad.gradle.avrohugger") version "0.9.0"
 }
 
 repositories {
