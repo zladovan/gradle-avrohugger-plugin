@@ -20,7 +20,7 @@ For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.9.0'
+    id 'com.zlad.gradle.avrohugger' version '0.10.0'
 }
 ```
 
@@ -30,7 +30,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.9.0'
+    id 'com.zlad.gradle.avrohugger' version '0.10.0'
 }
 
 repositories {
@@ -167,7 +167,7 @@ import com.zlad.gradle.avrohugger.AvrohuggerExtension
 
 plugins {
     id ("scala") 
-    id ("com.zlad.gradle.avrohugger") version "0.9.0"
+    id ("com.zlad.gradle.avrohugger") version "0.10.0"
 }
 
 repositories {
