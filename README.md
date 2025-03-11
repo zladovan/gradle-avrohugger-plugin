@@ -14,13 +14,17 @@ Plugin requires **Gradle** in version **7.0** or higher.
 >Use plugin in version `0.8.1` for compatibility down to **Gradle 5.1**  
 >Use plugin in version `0.2.5` for compatibility down to **Gradle 4.3**
 
+Plugin itself depends on **Scala 2.13**.
+
+>Use plugin in version `0.11.0` if you are using other plugins depending on **Scala 2.12**
+
 ## Usage
 
 For minimal usecase it is enough to add following to your `build.gradle` file:
                                     
 ```groovy
 plugins {
-    id 'com.zlad.gradle.avrohugger' version '0.11.0'
+    id 'com.zlad.gradle.avrohugger' version '1.0.0'
 }
 ```
 
@@ -30,7 +34,7 @@ to enable compilation of generated scala sources:
 ```groovy
 plugins {
     id 'scala'
-    id 'com.zlad.gradle.avrohugger' version '0.11.0'
+    id 'com.zlad.gradle.avrohugger' version '1.0.0'
 }
 
 repositories {
@@ -38,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.scala-lang:scala-library:2.12.10'
+    implementation 'org.scala-lang:scala-library:2.13.16'
 }
 ```
 
@@ -107,7 +111,7 @@ where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`,
    ```groovy
     dependencies {
        // ... other dependencies here 
-       implementation 'org.apache.avro:avro:1.8.2'
+       implementation 'org.apache.avro:avro:1.11.4'
     }
     ```
    
@@ -167,7 +171,7 @@ import com.zlad.gradle.avrohugger.AvrohuggerExtension
 
 plugins {
     id ("scala") 
-    id ("com.zlad.gradle.avrohugger") version "0.11.0"
+    id ("com.zlad.gradle.avrohugger") version "1.0.0"
 }
 
 repositories {
@@ -175,7 +179,7 @@ repositories {
 }
 
 dependencies {
-    implementation ("org.scala-lang:scala-library:2.12.10")
+    implementation ("org.scala-lang:scala-library:2.13.16")
 }
 
 avrohugger {
@@ -204,7 +208,7 @@ If some of your records has more then 22 fields and scala 2.10 is used
 simple serializable class will be generated instead of case class.
 
 >Plugin will get your scala version from `scala-library` version in compile dependencies. 
-If it is not able to found the dependency it will act as the version is 2.11.  
+If it is not able to found the dependency it will act as the version is 2.13.  
 
 ## Build and Test
 

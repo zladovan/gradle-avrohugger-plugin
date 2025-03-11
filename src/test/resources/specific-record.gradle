@@ -8,9 +8,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.scala-lang:scala-library:2.12.10'
+    implementation 'org.scala-lang:scala-library:2.13.16'
     // https://mvnrepository.com/artifact/org.apache.avro/avro
-    implementation 'org.apache.avro:avro:1.11.3'
+    implementation 'org.apache.avro:avro:1.11.4'
 }
 
 avrohugger {

@@ -13,12 +13,12 @@ class ScalaVersionSpec extends Specification {
 
     Callable<String> callable = new ScalaVersion(project)
 
-    def "should return 2.11 by default if scala version is not known"() {
+    def "should return 2.13 by default if scala version is not known"() {
         when:
         final version = callable.call()
 
         then:
-        version == "2.11"
+        version == "2.13"
     }
 
     def "should return 2.11 for first scala 2.11 version"() {
@@ -43,15 +43,37 @@ class ScalaVersionSpec extends Specification {
         version == "2.10"
     }
 
+    def "should resolve version 2.13 when used with gradle-scala-multiversion-plugin"() {
+        given:
+        projectWithScalaMultiversionPlugin('2.13.16')
+
+        when:
+        final version = callable.call()
+
+        then:
+        version == "2.13"
+    }
+
     def "should resolve version 2.12 when used with gradle-scala-multiversion-plugin"() {
         given:
-        projectWithScalaMultiversionPlugin('2.12.11')
+        projectWithScalaMultiversionPlugin('2.12.20')
 
         when:
         final version = callable.call()
 
         then:
         version == "2.12"
+    }
+
+    def "should resolve version 2.11 when used with gradle-scala-multiversion-plugin"() {
+        given:
+        projectWithScalaMultiversionPlugin('2.11.12')
+
+        when:
+        final version = callable.call()
+
+        then:
+        version == "2.11"
     }
 
     def "should resolve version 2.10 when used with gradle-scala-multiversion-plugin"() {
@@ -65,7 +87,7 @@ class ScalaVersionSpec extends Specification {
         version == "2.10"
     }
 
-    def "should return 2.11 as fallback if malformed version is found"() {
+    def "should return 2.13 as fallback if malformed version is found"() {
         given:
         projectWithScalaMultiversionPlugin('xxx')
 
@@ -73,7 +95,7 @@ class ScalaVersionSpec extends Specification {
         final version = callable.call()
 
         then:
-        version == "2.11"
+        version == "2.13"
     }
 
     /*
