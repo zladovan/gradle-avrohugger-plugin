@@ -14,6 +14,9 @@ Plugin requires **Gradle** in version **7.0** or higher.
 >Use plugin in version `0.8.1` for compatibility down to **Gradle 5.1**  
 >Use plugin in version `0.2.5` for compatibility down to **Gradle 4.3**
 
+Plugin requires **Java 11** or higher. 
+
+> Use plugin in version `1.2.0` if you need Java 8 support
 Plugin itself depends on **Scala 2.13**.
 
 >Use plugin in version `0.11.0` if you are using other plugins depending on **Scala 2.12**
@@ -111,7 +114,7 @@ where rounding mode could be one of `UP`, `DOWN`, `CEILING`, `FLOOR`, `HALF_UP`,
    ```groovy
     dependencies {
        // ... other dependencies here 
-       implementation 'org.apache.avro:avro:1.11.4'
+       implementation 'org.apache.avro:avro:1.12.1'
     }
     ```
    
