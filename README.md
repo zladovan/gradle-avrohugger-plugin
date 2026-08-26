@@ -17,6 +17,7 @@ Plugin requires **Gradle** in version **7.0** or higher.
 Plugin requires **Java 11** or higher. 
 
 > Use plugin in version `1.2.0` if you need Java 8 support
+
 Plugin itself depends on **Scala 2.13**.
 
 >Use plugin in version `0.11.0` if you are using other plugins depending on **Scala 2.12**
